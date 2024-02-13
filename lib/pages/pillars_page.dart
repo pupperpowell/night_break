@@ -10,8 +10,8 @@ class PillarsPage extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            PillarForm(), 
-            PillarForm(), 
+            PillarForm(),
+            PillarForm(),
             PillarForm(),
           ],
         ),

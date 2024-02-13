@@ -1,18 +1,20 @@
-import 'package:flutter/cupertino.dart';
-
 import 'package:flutter/material.dart';
-import 'package:night_break/components/navbar.dart';
+
+// import '../components/navbar.dart';
+import '../theme/dark_theme.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text('Welcome'),
+    return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
+      body: const Column(
+        children: [
+          Text('welcome to night break'),
+        ],
       ),
-      bottomNavigationBar: NavBar(),
     );
   }
 }
