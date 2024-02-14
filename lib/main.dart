@@ -16,7 +16,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       title: 'night break',
       theme: darkTheme,
-      home: const SafeArea(child: WelcomePage()),
+      home: const WelcomePage(),
       routes: {
         '/settings': (context) => const SettingsPage(),
         '/welcome': (context) => const WelcomePage(),
