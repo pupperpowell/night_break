@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class PillarForm extends StatelessWidget {
-  const PillarForm({super.key});
+class LoginForm extends StatelessWidget {
+  const LoginForm({super.key});
 
   @override
   Widget build(BuildContext context) {

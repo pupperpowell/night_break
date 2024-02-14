@@ -10,10 +10,14 @@ class WelcomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
-      body: const Column(
-        children: [
-          Text('welcome to night break'),
-        ],
+      body: const Center(
+        child: Column(
+          children: [
+            Text('night break'),
+            SizedBox(height: 8.0),
+            Text('an app for the mbc staff community'),
+          ],
+        ),
       ),
     );
   }
