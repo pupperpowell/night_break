@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-ThemeData darkTheme = ThemeData(
+ThemeData nightBreakDarkTheme = ThemeData(
   brightness: Brightness.dark,
   colorScheme: ColorScheme.dark(
-    background: Colors.grey.shade800,
+    background: Colors.grey.shade900,
     primary: Colors.grey.shade200,
     secondary: Colors.blueGrey,
+  ),
+  textTheme: TextTheme(
+    displayLarge: GoogleFonts.lora(
+      // this is causing hot reload to break for some reason?
+      fontWeight: FontWeight.w500,
+    ),
+    headlineMedium: GoogleFonts.inter(),
   ),
 );

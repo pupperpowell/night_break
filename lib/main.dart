@@ -15,12 +15,13 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'night break',
-      theme: darkTheme,
+      theme: nightBreakDarkTheme,
+      darkTheme: nightBreakDarkTheme, // ????
       home: const WelcomePage(),
-      routes: {
-        '/settings': (context) => const SettingsPage(),
-        '/welcome': (context) => const WelcomePage(),
-      },
+      // routes: {
+      //   '/settings': (context) => const SettingsPage(),
+      //   '/welcome': (context) => const WelcomePage(),
+      // },
     );
   }
 }

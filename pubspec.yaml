@@ -11,6 +11,10 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.6
   pocketbase: ^0.18.1
+  google_fonts: ^6.1.0
+
+assets:
+  - assets/fonts/
 
 dev_dependencies:
   flutter_test:
