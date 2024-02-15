@@ -18,9 +18,12 @@ class WelcomePage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            Text(
-              'night break',
-              style: Theme.of(context).textTheme.displayLarge,
+            Padding(
+              padding: const EdgeInsets.only(top: 32.0),
+              child: Text(
+                'night break',
+                style: Theme.of(context).textTheme.displayLarge,
+              ),
             ),
             SizedBox(height: 16.0),
             Text(

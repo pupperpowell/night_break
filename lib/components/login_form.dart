@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../logic/login_signup.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({super.key});
@@ -6,19 +9,21 @@ class LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(16.0),
       child: const Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          TextField(
-            decoration: InputDecoration(
-              hintText: 'username',
-            ),
+        children: [
+          CupertinoTextField(
+            placeholder: 'username',
+            keyboardAppearance: Brightness.dark,
+            autofocus: true,
+            // TODO: watch login/signup video again
           ),
-          TextField(
-            decoration: InputDecoration(
-              hintText: 'password',
-            ),
+          SizedBox(height: 8.0),
+          CupertinoTextField(
+            placeholder: 'password',
+            keyboardAppearance: Brightness.dark,
+            obscureText: true,
           ),
         ],
       ),
