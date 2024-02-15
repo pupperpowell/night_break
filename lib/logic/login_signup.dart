@@ -1,6 +1,9 @@
 import 'dart:math';
 
+import 'package:flutter/material.dart';
 import 'package:pocketbase/pocketbase.dart';
+
+import 'generate_invites.dart';
 
 final pb = PocketBase('https://nightbreak.app');
 
@@ -21,16 +24,4 @@ void login() async {
         'YOUR_USERNAME_OR_EMAIL',
         'YOUR_PASSWORD',
       );
-}
-
-void uploadInviteCodes() async {
-  // TODO: generate four unique invite codes per user
-
-  final body = <String, dynamic>{
-    "creator": "RELATION_RECORD_ID",
-    "code": "test",
-    "used": false
-  };
-
-  final record = await pb.collection('invite_codes').create(body: body);
 }

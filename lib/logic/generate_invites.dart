@@ -19,12 +19,10 @@ const List<String> adjectives = [
   'spiritual',
   'happy',
   'wonderful',
-  'wicked',
   'mystical',
   'sunny',
   'bostonian',
   'agios',
-  'hermit',
   'special',
   'welcoming',
   'supportive',
@@ -32,6 +30,11 @@ const List<String> adjectives = [
   'inclusive',
   'transformative',
   'blessed',
+  'forgiving',
+  'hydrated',
+  'inspirational',
+  'quirky',
+  'beloved'
 ];
 
 const List<String> nouns = [
@@ -41,7 +44,6 @@ const List<String> nouns = [
   'community',
   'night',
   'break',
-  'time',
   'service',
   'prayer',
   'daylight',
@@ -64,7 +66,6 @@ const List<String> nouns = [
   'chanting',
   'olympics',
   'campfire',
-  'george',
   'porch',
   'bible',
   'mountain',
@@ -76,18 +77,26 @@ const List<String> nouns = [
   'icon',
   'monastery',
   'masterpiece',
+  'camper',
+  'hospitality',
+  'devo',
+  'soundingboard',
 ];
 
 String generateInviteCode() {
+  // generates random code based on adjective, noun, and random number between 0 and 9999
   final adjNum = Random().nextInt(adjectives.length);
   final nounNum = Random().nextInt(nouns.length);
-  return '${adjectives.elementAt(adjNum.toInt())}-${nouns.elementAt(nounNum.toInt())}-${adjNum.toString()}-${nounNum.toString()}';
+  final postfix = Random().nextInt(9999).toString();
+  return '${adjectives.elementAt(adjNum.toInt())}-${nouns.elementAt(nounNum.toInt())}-$postfix';
 }
 
-int getAdjLength() {
-  return adjectives.length;
+String getCampAdj() {
+  // returns random adjective from list
+  return adjectives.elementAt(Random().nextInt(adjectives.length));
 }
 
-int getNounLength() {
-  return nouns.length;
+String getCampNoun() {
+  // returns random noun from list
+  return nouns.elementAt(Random().nextInt(nouns.length));
 }
