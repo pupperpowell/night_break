@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:night_break/theme/dark_theme.dart';
 
 import 'pages/welcome_page.dart';
-import 'pages/settings_page.dart';
 
 void main() {
   runApp(const MainApp());
