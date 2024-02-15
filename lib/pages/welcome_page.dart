@@ -1,5 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:night_break/logic/generate_invites.dart';
+
+import '../logic/login_signup.dart';
+
+/* 
+ * WelcomePage contains a welcome title/subtitle, 
+ * and enter-invite-code, login buttons.
+ */
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
@@ -56,6 +64,9 @@ class WelcomePage extends StatelessWidget {
                   color: Theme.of(context).colorScheme.secondary,
                   child: const Text('login'),
                 ),
+                Text(generateInviteCode()),
+                Text(
+                    'adjs: ${getAdjLength().toString()}, nouns: ${getNounLength().toString()}'),
               ],
             ),
           ),

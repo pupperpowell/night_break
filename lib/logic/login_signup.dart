@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:pocketbase/pocketbase.dart';
 
 final pb = PocketBase('https://nightbreak.app');
@@ -21,21 +23,14 @@ void login() async {
       );
 }
 
-// void logout() async {
-//   await pb.logout();
-// }
+void uploadInviteCodes() async {
+  // TODO: generate four unique invite codes per user
 
-// // end codeium segment
+  final body = <String, dynamic>{
+    "creator": "RELATION_RECORD_ID",
+    "code": "test",
+    "used": false
+  };
 
-// final authData = await pb.collection('users').authWithPassword(
-//   'YOUR_USERNAME_OR_EMAIL',
-//   'YOUR_PASSWORD',
-// );
-
-// // after the above you can also access the auth data from the authStore
-// print(pb.authStore.isValid);
-// print(pb.authStore.token);
-// print(pb.authStore.model.id);
-
-// // "logout" the last authenticated account
-// pb.authStore.clear();
+  final record = await pb.collection('invite_codes').create(body: body);
+}
