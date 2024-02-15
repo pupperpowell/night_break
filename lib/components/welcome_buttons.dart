@@ -25,6 +25,7 @@ class WelcomeButtons extends StatelessWidget {
             Navigator.of(context).pushNamed('/about');
           },
           child: const Text('about this app'),
+          // TODO: Fix this, it doesn't work at all.
         ),
       ],
     );
