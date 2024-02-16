@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../pages/about_page.dart';
+import 'invite_code_modal.dart';
+import 'login_modal.dart';
 
 class WelcomeButtons extends StatelessWidget {
   const WelcomeButtons({super.key});
@@ -13,16 +15,30 @@ class WelcomeButtons extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // enter invite code button
           CupertinoButton.filled(
-            onPressed: () {},
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                showDragHandle: true,
+                isScrollControlled: true,
+                backgroundColor: Colors.black.withOpacity(0.5),
+                builder: (context) => InviteCodeModal(),
+              );
+            },
             child: const Text('enter invite code'),
           ),
           const SizedBox(height: 16.0),
 
-          // login button
           CupertinoButton(
-            onPressed: () {},
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                showDragHandle: true,
+                isScrollControlled: true,
+                backgroundColor: Colors.black.withOpacity(0.5),
+                builder: (context) => LoginModal(),
+              );
+            },
             color: Theme.of(context).colorScheme.secondary,
             child: const Text('login'),
           ),
@@ -35,6 +51,7 @@ class WelcomeButtons extends StatelessWidget {
                 context: context,
                 showDragHandle: true,
                 isScrollControlled: true,
+                backgroundColor: Colors.black.withOpacity(0.75),
                 builder: (context) => const AboutPage(),
               );
             },
