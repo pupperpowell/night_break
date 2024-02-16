@@ -1,6 +1,6 @@
 # night break
 
-An app for the MBC staff community.
+an app for the mbc staff community.
 
 ## planned features
 
