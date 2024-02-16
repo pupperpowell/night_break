@@ -27,7 +27,7 @@ class WelcomePage extends StatelessWidget {
         child: Column(
           children: [
             TitleScreen(),
-            Spacer(), // this was magic
+            Spacer(),
             WelcomeButtons(),
           ],
         ),

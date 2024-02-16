@@ -18,6 +18,7 @@ class MainApp extends StatelessWidget {
       title: 'night break',
       theme: nightBreakDarkTheme,
       darkTheme: nightBreakDarkTheme, // ????
+      debugShowCheckedModeBanner: false,
       home: const WelcomePage(),
       routes: {
         '/welcome': (context) => const WelcomePage(),
