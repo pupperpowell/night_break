@@ -16,7 +16,7 @@ class TitleScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
+                  padding: const EdgeInsets.only(top: 22.0),
                   child: Text(
                     'night break',
                     style: Theme.of(context).textTheme.displayLarge,

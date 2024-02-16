@@ -22,7 +22,7 @@ class WelcomeButtons extends StatelessWidget {
 
           // login button
           CupertinoButton(
-            onPressed: () => Navigator.of(context).pushNamed('/login'),
+            onPressed: () {},
             color: Theme.of(context).colorScheme.secondary,
             child: const Text('login'),
           ),
