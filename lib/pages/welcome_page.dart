@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:night_break/components/title_screen.dart';
 
 import '../components/welcome_buttons.dart';

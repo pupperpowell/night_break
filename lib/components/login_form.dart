@@ -23,8 +23,8 @@ class LoginForm extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: 12.0),
-          TextField(
+          const SizedBox(height: 12.0),
+          const TextField(
             keyboardAppearance: Brightness.dark,
             autofocus: true,
             decoration: InputDecoration(
@@ -34,8 +34,8 @@ class LoginForm extends StatelessWidget {
               labelText: 'username',
             ),
           ),
-          SizedBox(height: 8.0),
-          CupertinoTextField(
+          const SizedBox(height: 8.0),
+          const CupertinoTextField(
             placeholder: 'password',
             keyboardAppearance: Brightness.dark,
             obscureText: true,
