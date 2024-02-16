@@ -19,6 +19,9 @@ class WelcomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
+      appBar: const CupertinoNavigationBar(
+        backgroundColor: Colors.transparent,
+      ),
       body: SafeArea(
         child: Center(
           child: Padding(
@@ -55,16 +58,12 @@ class WelcomePage extends StatelessWidget {
                     ),
                   ],
                 ),
-                const Spacer(),
+                const Spacer(), // this was magic
                 const WelcomeButtons(),
               ],
             ),
-
-            // enter invite code
           ),
         ),
-
-        // about this app
       ),
     );
   }

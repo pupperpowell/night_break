@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../pages/about_page.dart';
+
 class WelcomeButtons extends StatelessWidget {
   const WelcomeButtons({super.key});
 
@@ -22,10 +24,14 @@ class WelcomeButtons extends StatelessWidget {
         const SizedBox(height: 8.0),
         CupertinoButton(
           onPressed: () {
-            Navigator.of(context).pushNamed('/about');
+            showModalBottomSheet<void>(
+              context: context,
+              showDragHandle: true,
+              isScrollControlled: true,
+              builder: (context) => const AboutPage(),
+            );
           },
           child: const Text('about this app'),
-          // TODO: Fix this, it doesn't work at all.
         ),
       ],
     );
