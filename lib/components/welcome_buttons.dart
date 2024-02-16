@@ -8,32 +8,40 @@ class WelcomeButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        CupertinoButton.filled(
-          onPressed: () {},
-          child: const Text('enter invite code'),
-        ),
-        const SizedBox(height: 16.0),
-        CupertinoButton(
-          onPressed: () => Navigator.of(context).pushNamed('/login'),
-          color: Theme.of(context).colorScheme.secondary,
-          child: const Text('login'),
-        ),
-        const SizedBox(height: 8.0),
-        CupertinoButton(
-          onPressed: () {
-            showModalBottomSheet<void>(
-              context: context,
-              showDragHandle: true,
-              isScrollControlled: true,
-              builder: (context) => const AboutPage(),
-            );
-          },
-          child: const Text('about this app'),
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // enter invite code button
+          CupertinoButton.filled(
+            onPressed: () {},
+            child: const Text('enter invite code'),
+          ),
+          const SizedBox(height: 16.0),
+
+          // login button
+          CupertinoButton(
+            onPressed: () => Navigator.of(context).pushNamed('/login'),
+            color: Theme.of(context).colorScheme.secondary,
+            child: const Text('login'),
+          ),
+          const SizedBox(height: 8.0),
+
+          // about button
+          CupertinoButton(
+            onPressed: () {
+              showModalBottomSheet<void>(
+                context: context,
+                showDragHandle: true,
+                isScrollControlled: true,
+                builder: (context) => const AboutPage(),
+              );
+            },
+            child: const Text('about this app'),
+          ),
+        ],
+      ),
     );
   }
 }
