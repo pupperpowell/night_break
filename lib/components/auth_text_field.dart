@@ -37,8 +37,8 @@ class AuthTextField extends StatelessWidget {
     );
 
     const Gradient white = LinearGradient(
-      colors: [Colors.white, Colors.white],
-      begin: Alignment.topRight,
+      colors: [Colors.white, Colors.blueGrey],
+      begin: Alignment.topLeft,
       end: Alignment.bottomLeft,
     );
 
@@ -46,7 +46,7 @@ class AuthTextField extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16.0),
-        border: Border.all(color: Colors.white),
+        border: Border.all(color: Colors.grey.shade300),
       ),
       child: Shimmer(
         gradient: shimmer == false ? white : pastelSunsetGradient,
@@ -63,10 +63,11 @@ class AuthTextField extends StatelessWidget {
               hintStyle: TextStyle(
                 fontFamily: GoogleFonts.inter().fontFamily,
                 fontWeight: FontWeight.w600,
-                color: Colors.white,
+                color: Colors.grey.shade300,
               )),
           obscureText: obscureText,
           textInputAction: TextInputAction.next,
+          autocorrect: false,
         ),
       ),
     );

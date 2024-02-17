@@ -9,19 +9,27 @@ class InviteCodeModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 600,
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          AuthTextField(
-            controller: inviteCodeController,
-            hintText: 'code',
-            obscureText: false,
-            shimmer: true,
+    return SingleChildScrollView(
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+      ),
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              AuthTextField(
+                controller: inviteCodeController,
+                hintText: 'code',
+                obscureText: false,
+                shimmer: true,
+              ),
+              const SizedBox(height: 24.0),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

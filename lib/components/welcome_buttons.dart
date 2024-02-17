@@ -21,7 +21,6 @@ class WelcomeButtons extends StatelessWidget {
                 context: context,
                 showDragHandle: true,
                 isScrollControlled: true,
-                backgroundColor: Colors.black.withOpacity(0.5),
                 builder: (context) => InviteCodeModal(),
               );
             },
@@ -35,7 +34,6 @@ class WelcomeButtons extends StatelessWidget {
                 context: context,
                 showDragHandle: true,
                 isScrollControlled: true,
-                backgroundColor: Colors.black.withOpacity(0.5),
                 builder: (context) => LoginModal(),
               );
             },
@@ -51,7 +49,7 @@ class WelcomeButtons extends StatelessWidget {
                 context: context,
                 showDragHandle: true,
                 isScrollControlled: true,
-                backgroundColor: Colors.black.withOpacity(0.75),
+                // backgroundColor: Colors.black,
                 builder: (context) => const AboutPage(),
               );
             },

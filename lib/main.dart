@@ -15,7 +15,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       title: 'night break',
       theme: nightBreakDarkTheme,
-      darkTheme: nightBreakDarkTheme, // ????
+      // darkTheme: nightBreakDarkTheme, // ????
       debugShowCheckedModeBanner: false,
       home: const WelcomePage(),
       routes: {

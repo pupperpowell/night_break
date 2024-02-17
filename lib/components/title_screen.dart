@@ -32,7 +32,7 @@ class TitleScreen extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 64.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 32.0),
                   child: Text(
                     'an app for the mbc staff community',
                     style: Theme.of(context).textTheme.headlineMedium,
