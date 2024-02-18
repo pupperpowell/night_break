@@ -16,11 +16,11 @@ Future<void> signUp() async {
   debugPrint(record.toString());
 }
 
-void login() async {
+void login(String username, String password) async {
   try {
     await pb.collection('users').authWithPassword(
-          'username',
-          'password',
+          username,
+          password,
         );
   } catch (e) {
     debugPrint(e.toString());
