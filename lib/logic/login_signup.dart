@@ -1,24 +1,37 @@
-
+import 'package:flutter/cupertino.dart';
 import 'package:pocketbase/pocketbase.dart';
-
 
 final pb = PocketBase('https://nightbreak.app');
 
-// creates a new row in the 'users' collection.
-void signup() async {
-  await pb.collection('users').create(
-    body: {
-      "username": "test_username",
-      "password": "12345678",
-      "passwordConfirm": "12345678",
-      "name": "test",
-    },
-  );
+Future<void> signUp() async {
+  final body = <String, dynamic>{
+    "username": "Bob",
+    "email": "bob@example.com",
+    "password": "12345678",
+    "passwordConfirm": "12345678",
+    "name": "Bob Smith"
+  };
+
+  final record = await pb.collection('users').create(body: body);
+  debugPrint(record.toString());
 }
 
 void login() async {
-  await pb.collection('users').authWithPassword(
-        'YOUR_USERNAME_OR_EMAIL',
-        'YOUR_PASSWORD',
-      );
+  try {
+    await pb.collection('users').authWithPassword(
+          'username',
+          'password',
+        );
+  } catch (e) {
+    debugPrint(e.toString());
+  }
+}
+
+Future<void> refresh() async {
+  if (!pb.authStore.isValid) {
+    // TODO: The token has expired. Ask the user to sign in again.
+    return;
+  }
+  final authData = await pb.collection('users').authRefresh();
+  debugPrint(authData.toString());
 }
