@@ -27,6 +27,8 @@ class _LoginModalState extends State<LoginModal> {
     _passwordController.addListener(() {
       _checkLoginStatus();
     });
+
+    bool _loginEnabled = false;
   }
 
   void _checkLoginStatus() {
@@ -70,18 +72,12 @@ class _LoginModalState extends State<LoginModal> {
               ),
               const SizedBox(height: 8.0),
               CupertinoButton.filled(
-                onPressed: () {
-                  _loginEnabled
-                      ? null
-                      : login(
-                          _usernameController.text, _passwordController.text);
-                },
-                /* 
-								 * TODO:
-								 * Button is incorrectly enabled due to () {} present even if the
-								 * evaluated value is null. 
-								 * https://api.flutter.dev/flutter/cupertino/CupertinoButton-class.html
-								 */
+                onPressed: _loginEnabled
+                    ? () {
+                        login(
+                            _usernameController.text, _passwordController.text);
+                      }
+                    : null,
                 child: const Text('login'),
               ),
               const SizedBox(height: 24.0),
