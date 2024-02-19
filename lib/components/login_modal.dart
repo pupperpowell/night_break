@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
 import 'auth_text_field.dart';
 import '../logic/login_signup.dart';
@@ -27,8 +26,6 @@ class _LoginModalState extends State<LoginModal> {
     _passwordController.addListener(() {
       _checkLoginStatus();
     });
-
-    bool _loginEnabled = false;
   }
 
   void _checkLoginStatus() {
@@ -71,6 +68,7 @@ class _LoginModalState extends State<LoginModal> {
                 shimmer: false,
               ),
               const SizedBox(height: 8.0),
+              // LOGIN BUTTON
               CupertinoButton.filled(
                 onPressed: _loginEnabled
                     ? () {

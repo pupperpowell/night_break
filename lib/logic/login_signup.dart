@@ -3,25 +3,30 @@ import 'package:pocketbase/pocketbase.dart';
 
 final pb = PocketBase('https://nightbreak.app');
 
-Future<void> signUp() async {
+Future<void> signUp(String username, String password, String passwordConfirm,
+    String name) async {
   final body = <String, dynamic>{
-    "username": "Bob",
-    "email": "bob@example.com",
-    "password": "12345678",
-    "passwordConfirm": "12345678",
-    "name": "Bob Smith"
+    "username": username,
+    "password": password,
+    "passwordConfirm": passwordConfirm,
+    "name": name
   };
 
-  final record = await pb.collection('users').create(body: body);
-  debugPrint(record.toString());
+  try {
+    final signupAttempt = await pb.collection('users').create(body: body);
+    debugPrint(signupAttempt.toString());
+  } catch (e) {
+    debugPrint(e.toString());
+  }
 }
 
 void login(String username, String password) async {
   try {
-    await pb.collection('users').authWithPassword(
+    final loginAttempt = await pb.collection('users').authWithPassword(
           username,
           password,
         );
+    debugPrint(loginAttempt.toString());
   } catch (e) {
     debugPrint(e.toString());
   }

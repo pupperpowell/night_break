@@ -1,5 +1,8 @@
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
+import 'package:pocketbase/pocketbase.dart';
+
 const List<String> adjectives = [
   'byzantine',
   'athonite',
@@ -84,11 +87,37 @@ const List<String> nouns = [
 ];
 
 String generateInviteCode() {
-  // generates random code based on adjective, noun, and random number between 0 and 9999
-  final adjNum = Random().nextInt(adjectives.length);
-  final nounNum = Random().nextInt(nouns.length);
-  final postfix = Random().nextInt(9999).toString();
+  // generates random code
+  final adjNum =
+      Random().nextInt(adjectives.length); // random index of adjectives list
+  final nounNum = Random().nextInt(nouns.length); // random index of nouns list
+  final postfix = Random().nextInt(9999).toString(); // random number 0-9999
   return '${adjectives.elementAt(adjNum.toInt())}-${nouns.elementAt(nounNum.toInt())}-$postfix';
+}
+
+void allocateInviteCodes(String userId, PocketBase pb) async {
+  for (int i = 0; i < 4; i++) {
+    // generate 4 invite codes and upload them to the server
+    final inviteCode = <String, dynamic>{
+      "creator": userId,
+      "code": "test",
+      "used": false
+    };
+    // upload invite code
+    try {
+      final record =
+          await pb.collection('invite_codes').create(body: inviteCode);
+      debugPrint("Successfully generated and uploaded invite code?");
+      debugPrint(record.toString());
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+}
+
+bool verifyInviteCode(String code) {
+  // returns true if code is valid
+  return false;
 }
 
 String getCampAdj() {
