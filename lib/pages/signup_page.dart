@@ -7,7 +7,7 @@ class SignupPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Text('Signup'),
+      body: SafeArea(child: Center(child: Text('Sign up page'))),
     );
   }
 }

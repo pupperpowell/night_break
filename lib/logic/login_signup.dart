@@ -26,9 +26,12 @@ void login(String username, String password) async {
           username,
           password,
         );
-    debugPrint(loginAttempt.toString());
+
+    debugPrint('login successful');
+    // debugPrint(loginAttempt.toString());
   } catch (e) {
-    debugPrint(e.toString());
+    debugPrint('failed to authenticate.');
+    // debugPrint(e.toString());
   }
 }
 

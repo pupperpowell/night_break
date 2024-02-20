@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:night_break/pages/signup_page.dart';
 
 import 'package:pocketbase/pocketbase.dart';
 
@@ -68,9 +70,19 @@ class _InviteCodeModalState extends State<InviteCodeModal> {
               const SizedBox(height: 24.0),
               CupertinoButton.filled(
                 onPressed: verifyEnabled
-                    ? () {
-                        verifyInviteCode(
-                            _inviteCodeController.text.toString(), pb);
+                    ? () async {
+                        Future<bool> result = verifyInviteCode(
+                          _inviteCodeController.text.toString(),
+                          pb,
+                        );
+                        if (await result) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const SignupPage(),
+                            ),
+                          );
+                        }
                       }
                     : null,
                 child: const Text('verify'),
