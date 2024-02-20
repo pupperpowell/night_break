@@ -67,7 +67,7 @@ class _LoginModalState extends State<LoginModal> {
                 obscureText: true,
                 shimmer: false,
               ),
-              const SizedBox(height: 8.0),
+              const SizedBox(height: 22.0),
               // LOGIN BUTTON
               CupertinoButton.filled(
                 onPressed: _loginEnabled

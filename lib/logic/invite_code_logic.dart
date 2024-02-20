@@ -115,8 +115,13 @@ void allocateInviteCodes(String userId, PocketBase pb) async {
   }
 }
 
-bool verifyInviteCode(String code) {
+Future<bool> verifyInviteCode(String code, PocketBase pb) async {
   // returns true if code is valid
+  final record = await pb.collection('invite_codes').getFirstListItem(
+        'invite_code=$code',
+        expand: 'used',
+      );
+  debugPrint(record.toString());
   return false;
 }
 
