@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
@@ -115,14 +116,26 @@ void allocateInviteCodes(String userId, PocketBase pb) async {
   }
 }
 
+// returns true if code is unused
 Future<bool> verifyInviteCode(String code, PocketBase pb) async {
-  // returns true if code is valid
-  final record = await pb.collection('invite_codes').getFirstListItem(
-        'invite_code=$code',
-        expand: 'used',
-      );
-  debugPrint(record.toString());
-  return false;
+  // check the invite code database for the user's entered code
+  try {
+    final record = await pb
+        .collection('invite_codes')
+        .getFirstListItem('invite_code="$code"', fields: 'invite_code,used');
+    // if one is returned, it means the code is valid
+    final bool used = record.getBoolValue('used');
+    if (used == true) {
+      return false;
+    } else {
+      debugPrint("valid code!");
+      return true;
+    }
+  } catch (e) {
+    // if the invite code doesn't exist, return false
+    debugPrint(e.toString());
+    return false;
+  }
 }
 
 String getCampAdj() {

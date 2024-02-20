@@ -49,7 +49,7 @@ class _LoginModalState extends State<LoginModal> {
           EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -67,7 +67,7 @@ class _LoginModalState extends State<LoginModal> {
                 obscureText: true,
                 shimmer: false,
               ),
-              const SizedBox(height: 22.0),
+              const SizedBox(height: 24.0),
               // LOGIN BUTTON
               CupertinoButton.filled(
                 onPressed: _loginEnabled
