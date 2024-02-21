@@ -5,27 +5,30 @@ import 'package:html/parser.dart' as parser;
 class Parish {
   String name;
   String jurisdiction;
-  String coordinates;
   String streetAddress;
   String city;
   String state;
   String zip;
   String country;
+  double latitude;
+  double longitude;
 
   // constructor
   Parish({
     required this.name,
     required this.jurisdiction,
-    required this.coordinates,
     required this.streetAddress,
     required this.city,
     required this.state,
     required this.zip,
     required this.country,
+    required this.latitude,
+    required this.longitude,
   });
 
   Future<List<Parish>> scrapeChurches() async {
-    final url = 'https://www.assemblyofbishops.org/directories/parishes/';
+    const url =
+        'https://www.assemblyofbishops.org/directories/parishes/?radius=500&search_address=170%20Washington%20St.%20Malden%2C%20MA%2002148&search_coordinates=(42.432795%2C%20-71.0725045)&search_error=OK&searchType=proximity';
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
@@ -79,12 +82,13 @@ class Parish {
         return Parish(
             name: title,
             jurisdiction: jurisdiction,
-            address: address,
-            city,
-            state,
-            zip,
-            latitude,
-            longitude);
+            streetAddress: address,
+            city: city,
+            state: state,
+            zip: zip,
+            country: country,
+            latitude: latitude,
+            longitude: longitude);
       }).toList();
     } else {
       throw Exception('Failed to fetch data from website');
