@@ -1,12 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:night_break/pages/signup_page.dart';
-
 import 'package:pocketbase/pocketbase.dart';
 
-import 'package:night_break/components/auth_text_field.dart';
-import 'package:night_break/logic/invite_code_logic.dart';
+import '../pages/signup_page.dart';
+import 'auth_text_field.dart';
+import '../logic/invite_code_logic.dart';
 
 PocketBase pb = PocketBase('https://nightbreak.app');
 
@@ -71,15 +69,18 @@ class _InviteCodeModalState extends State<InviteCodeModal> {
               CupertinoButton.filled(
                 onPressed: verifyEnabled
                     ? () async {
+                        final String enteredCode =
+                            _inviteCodeController.text.toString();
                         Future<bool> result = verifyInviteCode(
-                          _inviteCodeController.text.toString(),
+                          enteredCode,
                           pb,
                         );
                         if (await result) {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const SignupPage(),
+                              builder: (context) =>
+                                  SignupPage(inviteCode: enteredCode),
                             ),
                           );
                         }

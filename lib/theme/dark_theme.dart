@@ -16,5 +16,9 @@ ThemeData nightBreakDarkTheme = ThemeData(
     headlineMedium: GoogleFonts.inter(),
     headlineSmall: GoogleFonts.lora(),
     bodyLarge: GoogleFonts.inter(),
+    labelMedium: GoogleFonts.inter(
+      color: Colors.grey.shade200,
+      fontWeight: FontWeight.w300,
+    ),
   ),
 );

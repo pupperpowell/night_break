@@ -37,7 +37,7 @@ class AuthTextField extends StatelessWidget {
     );
 
     const Gradient white = LinearGradient(
-      colors: [Colors.white, Colors.blueGrey],
+      colors: [Colors.white, Colors.grey],
       begin: Alignment.topLeft,
       end: Alignment.bottomLeft,
     );
@@ -62,7 +62,6 @@ class AuthTextField extends StatelessWidget {
               hintText: hintText,
               hintStyle: TextStyle(
                 fontFamily: GoogleFonts.inter().fontFamily,
-                fontWeight: FontWeight.w600,
                 color: Colors.grey.shade300,
               )),
           obscureText: obscureText,

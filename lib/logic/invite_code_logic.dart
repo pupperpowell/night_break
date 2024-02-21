@@ -128,6 +128,7 @@ Future<bool> verifyInviteCode(String code, PocketBase pb) async {
     // if one is returned, it means the code is valid
     final bool used = record.getBoolValue('used');
     if (used == true) {
+      debugPrint('code has already been used!');
       return false;
     } else {
       debugPrint("valid code!");
@@ -135,8 +136,39 @@ Future<bool> verifyInviteCode(String code, PocketBase pb) async {
     }
   } catch (e) {
     // if the invite code doesn't exist, return false
-    debugPrint(e.toString());
+    debugPrint('there\'s no invite code by that name!');
     return false;
+  }
+}
+
+Future<String> getInvitedById(String code, PocketBase pb) async {
+  try {
+    final record = await pb.collection('invite_codes').getFirstListItem(
+          'invite_code="$code"',
+        );
+    return record.getStringValue('creator');
+  } catch (e) {
+    debugPrint(e.toString());
+    return 'NAH FAM';
+  }
+}
+
+void useInviteCode(String code, PocketBase pb) async {
+  try {
+    final record = await pb.collection('invite_codes').getFirstListItem(
+          'invite_code="$code"',
+        );
+
+    final usedBody = <String, dynamic>{
+      "creator": record.getDataValue('creator'),
+      "invite_code": record.getStringValue('invite_code'),
+      "used": true
+    };
+
+    await pb.collection('invite_codes').update(record.id, body: usedBody);
+    debugPrint('marked code $code as used');
+  } catch (e) {
+    debugPrint(e.toString());
   }
 }
 

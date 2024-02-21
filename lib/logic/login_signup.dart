@@ -3,13 +3,13 @@ import 'package:pocketbase/pocketbase.dart';
 
 final pb = PocketBase('https://nightbreak.app');
 
-Future<void> signUp(String username, String password, String passwordConfirm,
-    String name) async {
+Future<void> signUp(String name, String username, String password,
+    String passwordConfirm) async {
   final body = <String, dynamic>{
+    "name": name,
     "username": username,
     "password": password,
     "passwordConfirm": passwordConfirm,
-    "name": name
   };
 
   try {

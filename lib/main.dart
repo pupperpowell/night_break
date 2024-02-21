@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:night_break/pages/signup_page.dart';
 import 'package:night_break/theme/dark_theme.dart';
 
 import 'pages/welcome_page.dart';
@@ -17,7 +18,8 @@ class MainApp extends StatelessWidget {
       theme: nightBreakDarkTheme,
       // darkTheme: nightBreakDarkTheme, // ????
       debugShowCheckedModeBanner: false,
-      home: const WelcomePage(),
+      // home: const WelcomePage(),
+      home: SignupPage(inviteCode: 'fake-invite-code'),
       routes: {
         '/welcome': (context) => const WelcomePage(),
       },
