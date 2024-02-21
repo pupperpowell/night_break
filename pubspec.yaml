@@ -13,6 +13,8 @@ dependencies:
   pocketbase: ^0.18.1
   google_fonts: ^6.1.0
   shimmer: ^3.0.0
+  html: ^0.15.4
+  http: ^1.2.0
 
 assets:
   - assets/fonts/
