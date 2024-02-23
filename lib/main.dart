@@ -3,6 +3,7 @@ import 'package:night_break/pages/profile_page.dart';
 import 'package:night_break/pages/signup_page.dart';
 import 'package:night_break/theme/dark_theme.dart';
 
+import 'pages/home_page.dart';
 import 'pages/welcome_page.dart';
 
 void main() {
@@ -20,9 +21,10 @@ class MainApp extends StatelessWidget {
       // darkTheme: nightBreakDarkTheme, // ????
       debugShowCheckedModeBanner: false,
       // home: const WelcomePage(),
-      home: const ProfilePage(),
+      home: const WelcomePage(),
       routes: {
         '/welcome': (context) => const WelcomePage(),
+        '/home': (context) => const HomePage(),
       },
     );
   }
