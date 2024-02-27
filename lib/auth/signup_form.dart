@@ -6,7 +6,7 @@ import 'package:pocketbase/pocketbase.dart';
 import 'package:provider/provider.dart';
 
 class SignupForm extends StatefulWidget {
-  SignupForm({super.key});
+  const SignupForm({super.key});
 
   @override
   State<SignupForm> createState() => _SignupFormState();

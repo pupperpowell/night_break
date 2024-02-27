@@ -21,7 +21,7 @@ class WelcomeButtons extends StatelessWidget {
                 context: context,
                 showDragHandle: true,
                 isScrollControlled: true,
-                builder: (context) => InviteCodeModal(),
+                builder: (context) => const InviteCodeModal(),
               );
             },
             child: const Text('enter invite code'),
@@ -34,7 +34,7 @@ class WelcomeButtons extends StatelessWidget {
                 context: context,
                 showDragHandle: true,
                 isScrollControlled: true,
-                builder: (context) => LoginModal(),
+                builder: (context) => const LoginModal(),
               );
             },
             color: Theme.of(context).colorScheme.secondary,

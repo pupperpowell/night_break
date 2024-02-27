@@ -1,9 +1,7 @@
-import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:night_break/auth/signup_page.dart';
 import 'package:pocketbase/pocketbase.dart';
 
 const List<String> adjectives = [

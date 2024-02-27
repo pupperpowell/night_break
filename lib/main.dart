@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
-import 'package:get_it/get_it.dart';
-import 'package:pocketbase/pocketbase.dart';
 
 import 'package:night_break/auth/auth.dart';
 import 'package:night_break/locator.dart';

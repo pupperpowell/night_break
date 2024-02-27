@@ -44,7 +44,6 @@ Future<List<Parish>> scrapeChurches() async {
   final response = await http.get(Uri.parse(url));
 
   if (response.statusCode == 200) {
-    print('status code: 200');
     final document = parser.parse(response.body);
 
     final parishes = document.querySelectorAll('.output_parish');
@@ -68,7 +67,7 @@ Future<List<Parish>> scrapeChurches() async {
       final zipElement = parish.querySelector('.parish_zip');
       final zip = zipElement?.text.trim() ?? '';
 
-      final geocodeElement = parish.querySelector('.parish_geocode');
+      // final geocodeElement = parish.querySelector('.parish_geocode');
       // final isExact = geocodeElement?.text.trim() == 'exact';
 
       final latitudeElement = parish.querySelector('.parish_latitude');
@@ -112,5 +111,5 @@ void main() async {
   // Write the JSON data to the file
   await File(filename).writeAsString(jsonData);
 
-  print('Churches saved to $filename');
+  // print('Churches saved to $filename');
 }

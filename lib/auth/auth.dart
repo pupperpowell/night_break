@@ -13,7 +13,7 @@ class AuthService {
     final pb = locator<PocketBase>();
 
     try {
-      final loginAttempt = await pb.collection('users').authWithPassword(
+      await pb.collection('users').authWithPassword(
             username,
             password,
           );

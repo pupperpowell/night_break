@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'signup_form.dart';
 
 class SignupPage extends StatelessWidget {
-  SignupPage({super.key, required this.inviteCode});
+  const SignupPage({super.key, required this.inviteCode});
 
   final String inviteCode;
 
@@ -18,9 +18,9 @@ class SignupPage extends StatelessWidget {
         ),
         title: const Text('sign up'),
       ),
-      body: SafeArea(
+      body: const SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
           child: Center(
             child: Column(
               children: [
