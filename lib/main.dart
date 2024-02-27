@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:night_break/pages/profile_page.dart';
-import 'package:night_break/pages/signup_page.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+import 'package:get_it/get_it.dart';
+import 'package:pocketbase/pocketbase.dart';
+
+import 'package:night_break/auth/auth.dart';
+import 'package:night_break/locator.dart';
 import 'package:night_break/theme/dark_theme.dart';
 
-import 'pages/home_page.dart';
-import 'pages/welcome_page.dart';
-
-void main() {
-  runApp(const MainApp());
+Future<void> main() async {
+  await setup();
+  runApp(
+    const MainApp(),
+  );
 }
 
 class MainApp extends StatelessWidget {
@@ -18,14 +23,9 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       title: 'night break',
       theme: nightBreakDarkTheme,
-      // darkTheme: nightBreakDarkTheme, // ????
+      darkTheme: nightBreakDarkTheme,
       debugShowCheckedModeBanner: false,
-      // home: const WelcomePage(),
-      home: const WelcomePage(),
-      routes: {
-        '/welcome': (context) => const WelcomePage(),
-        '/home': (context) => const HomePage(),
-      },
+      home: const AuthPage(),
     );
   }
 }

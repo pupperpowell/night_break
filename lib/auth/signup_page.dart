@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:night_break/components/signup_form.dart';
+import 'signup_form.dart';
 
 class SignupPage extends StatelessWidget {
   SignupPage({super.key, required this.inviteCode});
@@ -17,6 +16,7 @@ class SignupPage extends StatelessWidget {
           },
           child: const Icon(Icons.arrow_back_ios_new_rounded),
         ),
+        title: const Text('sign up'),
       ),
       body: SafeArea(
         child: Padding(

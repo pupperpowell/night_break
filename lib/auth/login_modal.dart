@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
-import 'auth_text_field.dart';
-import '../logic/login_signup.dart';
+import '../components/auth_text_field.dart';
+import 'auth.dart';
 
 class LoginModal extends StatefulWidget {
   const LoginModal({super.key});
@@ -12,6 +12,7 @@ class LoginModal extends StatefulWidget {
 
 class _LoginModalState extends State<LoginModal> {
   bool _loginEnabled = false;
+
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
@@ -41,6 +42,8 @@ class _LoginModalState extends State<LoginModal> {
     _passwordController.dispose();
     super.dispose();
   }
+
+  final authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -72,8 +75,11 @@ class _LoginModalState extends State<LoginModal> {
               CupertinoButton.filled(
                 onPressed: _loginEnabled
                     ? () {
-                        login(
-                            _usernameController.text, _passwordController.text);
+                        authService.login(
+                          _usernameController.text,
+                          _passwordController.text,
+                          context,
+                        );
                       }
                     : null,
                 child: const Text('login'),

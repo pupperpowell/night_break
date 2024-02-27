@@ -2,7 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:night_break/components/auth_text_field.dart';
 import 'package:night_break/logic/invite_code_logic.dart';
-import 'package:night_break/logic/login_signup.dart';
+import 'package:pocketbase/pocketbase.dart';
+import 'package:provider/provider.dart';
 
 class SignupForm extends StatefulWidget {
   SignupForm({super.key});
@@ -12,6 +13,28 @@ class SignupForm extends StatefulWidget {
 }
 
 class _SignupFormState extends State<SignupForm> {
+  Future<void> signUp(String name, String username, String password,
+      String passwordConfirm) async {
+    final pb = Provider.of<PocketBase>(context, listen: false);
+    final body = <String, dynamic>{
+      "name": name,
+      "username": username,
+      "password": password,
+      "passwordConfirm": passwordConfirm,
+    };
+
+    try {
+      final signupAttempt = await pb.collection('users').create(body: body);
+      debugPrint(signupAttempt.toString());
+    } catch (e) {
+      if (e.toString().contains('username is invalid')) {
+        debugPrint('username already exists');
+      } else {
+        debugPrint(e.toString());
+      }
+    }
+  }
+
   bool _signupEnabled = false;
 
   final _nameController = TextEditingController();
@@ -64,6 +87,8 @@ class _SignupFormState extends State<SignupForm> {
 
   @override
   Widget build(BuildContext context) {
+    final pb = Provider.of<PocketBase>(context);
+
     return SafeArea(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

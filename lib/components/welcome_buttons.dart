@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../pages/about_page.dart';
 import 'invite_code_modal.dart';
-import 'login_modal.dart';
+import '../auth/login_modal.dart';
 
 class WelcomeButtons extends StatelessWidget {
   const WelcomeButtons({super.key});

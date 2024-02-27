@@ -1,12 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pocketbase/pocketbase.dart';
+import 'package:provider/provider.dart';
 
-import '../pages/signup_page.dart';
+import '../auth/signup_page.dart';
 import 'auth_text_field.dart';
 import '../logic/invite_code_logic.dart';
-
-PocketBase pb = PocketBase('https://nightbreak.app');
 
 class InviteCodeModal extends StatefulWidget {
   const InviteCodeModal({super.key});
@@ -48,6 +47,7 @@ class _InviteCodeModalState extends State<InviteCodeModal> {
 
   @override
   Widget build(BuildContext context) {
+    final pb = Provider.of<PocketBase>(context);
     return SingleChildScrollView(
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom,
