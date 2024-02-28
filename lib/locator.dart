@@ -21,5 +21,4 @@ Future<void> setup() async {
 
   locator.registerSingleton<PocketBase>(pb);
   locator.registerSingleton<FlutterSecureStorage>(storage);
-  debugPrint('initialized pocketbase');
 }

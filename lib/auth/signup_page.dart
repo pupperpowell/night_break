@@ -18,13 +18,13 @@ class SignupPage extends StatelessWidget {
         ),
         title: const Text('sign up'),
       ),
-      body: const SafeArea(
+      body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Center(
             child: Column(
               children: [
-                SignupForm(),
+                SignupForm(inviteCode: inviteCode),
               ],
             ),
           ),

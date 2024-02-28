@@ -4,6 +4,7 @@ import 'package:pocketbase/pocketbase.dart';
 import 'package:provider/provider.dart';
 
 import '../auth/signup_page.dart';
+import '../locator.dart';
 import 'auth_text_field.dart';
 import '../logic/invite_code_logic.dart';
 
@@ -47,7 +48,7 @@ class _InviteCodeModalState extends State<InviteCodeModal> {
 
   @override
   Widget build(BuildContext context) {
-    final pb = Provider.of<PocketBase>(context);
+    final pb = locator<PocketBase>();
     return SingleChildScrollView(
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom,
@@ -76,11 +77,30 @@ class _InviteCodeModalState extends State<InviteCodeModal> {
                           pb,
                         );
                         if (await result) {
+                          Navigator.pop(context); // dismiss modal
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
                                   SignupPage(inviteCode: enteredCode),
+                            ),
+                          );
+                        } else {
+                          // invalid invite code, show cupertino dialogue
+                          showCupertinoDialog(
+                            context: context,
+                            builder: (context) => CupertinoAlertDialog(
+                              title: const Text('invalid invite code'),
+                              content:
+                                  const Text('maybe someone already used it?'),
+                              actions: [
+                                CupertinoDialogAction(
+                                  child: const Text('ok'),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              ],
                             ),
                           );
                         }

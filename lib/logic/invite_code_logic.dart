@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'package:pocketbase/pocketbase.dart';
 
 const List<String> adjectives = [
@@ -99,20 +100,42 @@ String generateInviteCode() {
 void allocateInviteCodes(String userId, PocketBase pb) async {
   for (int i = 0; i < 4; i++) {
     // generate 4 invite codes and upload them to the server
+    final code = generateInviteCode();
     final inviteCode = <String, dynamic>{
-      "creator": userId,
-      "code": "test",
-      "used": false
+      "invite_code": code,
+      "used": false,
+      "owner": userId,
     };
     // upload invite code
     try {
       final record =
           await pb.collection('invite_codes').create(body: inviteCode);
-      debugPrint("Successfully generated and uploaded invite code?");
-      debugPrint(record.toString());
+      // debugPrint("generated invite code $code");
     } catch (e) {
+      debugPrint('failed to upload invite code');
+    }
+  }
+}
+
+// generate and upload a test invite code
+void generateTestInviteCode(PocketBase pb) async {
+  final code = generateInviteCode();
+  final inviteCode = <String, dynamic>{
+    "invite_code": code,
+    "used": false,
+    "owner": "eyxw2xh8l9sgceb",
+  };
+  // upload invite code
+  try {
+    final record = await pb.collection('invite_codes').create(body: inviteCode);
+    debugPrint("generated invite code $code");
+    debugPrint(record.toString());
+  } on ClientException catch (e) {
+    if (e.statusCode == 400) {
       debugPrint(e.toString());
     }
+  } catch (e) {
+    debugPrint(e.toString());
   }
 }
 
@@ -139,18 +162,6 @@ Future<bool> verifyInviteCode(String code, PocketBase pb) async {
   }
 }
 
-Future<String> getInvitedById(String code, PocketBase pb) async {
-  try {
-    final record = await pb.collection('invite_codes').getFirstListItem(
-          'invite_code="$code"',
-        );
-    return record.getStringValue('creator');
-  } catch (e) {
-    debugPrint(e.toString());
-    return 'NAH FAM';
-  }
-}
-
 void useInviteCode(String code, PocketBase pb) async {
   try {
     final record = await pb.collection('invite_codes').getFirstListItem(
@@ -158,7 +169,7 @@ void useInviteCode(String code, PocketBase pb) async {
         );
 
     final usedBody = <String, dynamic>{
-      "creator": record.getDataValue('creator'),
+      "owner": record.getDataValue('owner'),
       "invite_code": record.getStringValue('invite_code'),
       "used": true
     };
@@ -167,6 +178,19 @@ void useInviteCode(String code, PocketBase pb) async {
     debugPrint('marked code $code as used');
   } catch (e) {
     debugPrint(e.toString());
+  }
+}
+
+Future<String> getInvitedById(String code, PocketBase pb) async {
+  try {
+    final record = await pb.collection('invite_codes').getFirstListItem(
+          'invite_code="$code"',
+        );
+    debugPrint('got invitee: ${record.getStringValue('owner')}');
+    return record.getStringValue('owner');
+  } catch (e) {
+    debugPrint(e.toString());
+    return 'NAH FAM';
   }
 }
 

@@ -3,38 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:night_break/components/auth_text_field.dart';
 import 'package:night_break/logic/invite_code_logic.dart';
 import 'package:pocketbase/pocketbase.dart';
-import 'package:provider/provider.dart';
+
+import '../locator.dart';
+import 'auth.dart';
 
 class SignupForm extends StatefulWidget {
-  const SignupForm({super.key});
+  const SignupForm({super.key, required this.inviteCode});
+
+  final String inviteCode;
 
   @override
   State<SignupForm> createState() => _SignupFormState();
 }
 
 class _SignupFormState extends State<SignupForm> {
-  Future<void> signUp(String name, String username, String password,
-      String passwordConfirm) async {
-    final pb = Provider.of<PocketBase>(context, listen: false);
-    final body = <String, dynamic>{
-      "name": name,
-      "username": username,
-      "password": password,
-      "passwordConfirm": passwordConfirm,
-    };
-
-    try {
-      final signupAttempt = await pb.collection('users').create(body: body);
-      debugPrint(signupAttempt.toString());
-    } catch (e) {
-      if (e.toString().contains('username is invalid')) {
-        debugPrint('username already exists');
-      } else {
-        debugPrint(e.toString());
-      }
-    }
-  }
-
   bool _signupEnabled = false;
 
   final _nameController = TextEditingController();
@@ -87,7 +69,8 @@ class _SignupFormState extends State<SignupForm> {
 
   @override
   Widget build(BuildContext context) {
-    final pb = Provider.of<PocketBase>(context);
+    final pb = locator<PocketBase>();
+    final authService = AuthService();
 
     return SafeArea(
       child: Column(
@@ -141,11 +124,13 @@ class _SignupFormState extends State<SignupForm> {
             color: Theme.of(context).colorScheme.secondary,
             onPressed: _signupEnabled
                 ? () {
-                    signUp(
+                    authService.signUp(
                       _nameController.text,
                       _usernameController.text,
                       _passwordController.text,
                       _passwordConfirmController.text,
+                      widget.inviteCode,
+                      context,
                     );
                   }
                 : null,
@@ -154,12 +139,6 @@ class _SignupFormState extends State<SignupForm> {
             ),
           ),
           const SizedBox(height: 24.0),
-          CupertinoButton(
-            onPressed: () {
-              useInviteCode("genesis", pb);
-            },
-            child: const Text('check invite code'),
-          )
         ],
       ),
     );
