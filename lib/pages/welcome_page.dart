@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:night_break/components/title_screen.dart';
+import 'package:night_break/components/title_section.dart';
 
 import '../components/welcome_buttons.dart';
 
@@ -13,12 +13,11 @@ class WelcomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
-      body: const SafeArea(
+    return const Scaffold(
+      body: SafeArea(
         child: Column(
           children: [
-            TitleScreen(),
+            TitleSection(),
             Spacer(),
             WelcomeButtons(),
           ],

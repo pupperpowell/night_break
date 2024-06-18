@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:material_symbols_icons/material_symbols_icons.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({super.key});
@@ -15,6 +16,7 @@ class _NavBarState extends State<NavBar> {
   @override
   Widget build(BuildContext context) {
     return NavigationBar(
+      labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
       onDestinationSelected: (int index) {
         setState(
           () {
@@ -25,18 +27,20 @@ class _NavBarState extends State<NavBar> {
       selectedIndex: _currentPageIndex,
       destinations: const [
         NavigationDestination(
-          icon: Icon(Icons.home),
+          icon: Icon(Symbols.favorite),
           label: 'Home',
         ),
         NavigationDestination(
-          icon: Icon(Icons.person),
-          label: 'Profile',
+          icon: Icon(Symbols.candle_rounded),
+          label: 'Candle Stand',
         ),
         NavigationDestination(
-          icon: Icon(Icons.settings),
+          icon: Icon(Symbols.settings),
           label: 'Settings',
         ),
       ],
+      backgroundColor: Colors.black,
+      height: 70,
     );
   }
 }

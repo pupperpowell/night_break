@@ -1,8 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class TitleScreen extends StatelessWidget {
-  const TitleScreen({super.key});
+class TitleSection extends StatelessWidget {
+  const TitleSection({super.key});
+
+/* 
+ * TitleSection is the top part of the welcome screen.
+ * It contains a title, logo/icon, and subtitle
+ * It is called in WelcomePage (welcome_page.dart)
+ */
 
   @override
   Widget build(BuildContext context) {

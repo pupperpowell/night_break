@@ -104,6 +104,7 @@ class AuthPage extends StatelessWidget {
         stream: pb.authStore.onChange,
         builder: (context, snapshot) {
           if (pb.authStore.isValid) {
+            debugPrint('valid token detected- user is logged in.');
             return const HomePage();
           } else {
             return const WelcomePage();
