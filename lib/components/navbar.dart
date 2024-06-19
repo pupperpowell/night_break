@@ -8,8 +8,6 @@ class NavBar extends StatefulWidget {
   State<NavBar> createState() => _NavBarState();
 }
 
-// TODO: Link to whatever tutorial i followed for this
-
 class _NavBarState extends State<NavBar> {
   int _currentPageIndex = 0;
 

@@ -209,13 +209,14 @@ void allocateInviteCodes(String userId, PocketBase pb) async {
       "used": false,
       "owner": userId,
     };
+    debugPrint("named invite code $code");
     // upload invite code
     try {
       final record =
           await pb.collection('invite_codes').create(body: inviteCode);
       // debugPrint("generated invite code $code");
     } catch (e) {
-      debugPrint('failed to upload invite code');
+      debugPrint(e.toString());
     }
   }
 }

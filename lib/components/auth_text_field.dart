@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:shimmer/shimmer.dart';
 
 class AuthTextField extends StatelessWidget {
@@ -61,7 +60,7 @@ class AuthTextField extends StatelessWidget {
               border: InputBorder.none,
               hintText: hintText,
               hintStyle: TextStyle(
-                fontFamily: GoogleFonts.inter().fontFamily,
+                // fontFamily: GoogleFonts.inter().fontFamily,
                 color: Colors.grey.shade300,
               )),
           obscureText: obscureText,

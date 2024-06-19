@@ -16,15 +16,27 @@ class AboutPage extends StatelessWidget {
               style: Theme.of(context).textTheme.headlineSmall,
             ),
             const SizedBox(height: 20.0),
-            Text(
-              '''night break is an app designed specifically for the staff (current and former) of the metropolis of boston camp, which theoretically allows for a tailored social media experience, unlike traditional apps like instagram or facebook.  
-              
-              night break's features are unique from other platforms, and are entirely determined by the staff who use it. a roadmap of features will be created in the future.  
-              
-              This app is an independent platform created by George Powell and is not officially affiliated with the Metropolis of Boston Camp or the Greek Orthodox Metropolis of Boston. Any views or opinions expressed on this platform are those of the individual users and do not necessarily reflect the official positions or policies of the camp or the metropolis.''',
-              style: Theme.of(context).textTheme.bodyLarge,
-              textAlign: TextAlign.justify,
+            RichText(
+              text: TextSpan(
+                text:
+                    'Most apps are designed to be used by billions. But as it turns out, designing something for everybody is really designing something for... nobody. What features of Instagram, Facebook, or Snapchat really feel like they were designed specifically for',
+                style: Theme.of(context).textTheme.bodyLarge,
+                children: const <TextSpan>[
+                  TextSpan(
+                    text: ' you?\n',
+                    style: TextStyle(fontStyle: FontStyle.italic),
+                  ),
+                ],
+              ),
             ),
+            Text(
+              "When you design something for only a few people in mind, you can tailor it to the needs of your community in ways that popular apps never could. So that's Night Break. It's designed specifically for the staff community of the Metropolis of Boston Camp. Every feature is crafted with our camp community in mind. When you use it, you'll see what I mean.\n",
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            Text(
+              "Looking for an invite code? Here's a hint: humility is not a pillar. That leaves you with six other options. I hope you enjoy this app!",
+              style: Theme.of(context).textTheme.bodyLarge,
+            )
           ],
         ),
       ),

@@ -30,13 +30,23 @@ class _InviteCodeModalState extends State<InviteCodeModal> {
 
   void _checkVerifyStatus() {
     setState(() {
-      // verifyEnabled = _inviteCodeController.text.isNotEmpty;
-      verifyEnabled = isValidInviteCode(_inviteCodeController.text);
+      // first line is for previous invite code system
+      // verifyEnabled = isValidInviteCode(_inviteCodeController.text);
+      // current line is for a pillar only.
+      verifyEnabled = isPillar(_inviteCodeController.text);
     });
   }
 
   bool isValidInviteCode(String text) {
     final regex = RegExp(r"^[a-z]+-[a-z]+-[0-9]+$");
+    return regex.hasMatch(text);
+  }
+
+  bool isPillar(String text) {
+    final regex = RegExp(
+      r"^(love|respect|honesty|trust|openness|forgiveness|humility)$",
+      caseSensitive: false,
+    );
     return regex.hasMatch(text);
   }
 
@@ -67,32 +77,64 @@ class _InviteCodeModalState extends State<InviteCodeModal> {
                 shimmer: true,
               ),
               const SizedBox(height: 24.0),
+
+              // this is the button that has the old invite code logic
+
+              // CupertinoButton.filled(
+              //   onPressed: verifyEnabled
+              //       ? () async {
+              //           final String enteredCode =
+              //               _inviteCodeController.text.toString();
+              //           Future<bool> result = verifyInviteCode(
+              //             enteredCode,
+              //             pb,
+              //           );
+              //           if (await result) {
+              //             Navigator.pop(context); // dismiss modal
+              //             Navigator.push(
+              //               context,
+              //               MaterialPageRoute(
+              //                 builder: (context) =>
+              //                     SignupPage(inviteCode: enteredCode),
+              //               ),
+              //             );
+              //           } else {
+              //             // invalid invite code, show cupertino dialogue
+              //             showCupertinoDialog(
+              //               context: context,
+              //               builder: (context) => CupertinoAlertDialog(
+              //                 title: const Text('invalid invite code'),
+              //                 content:
+              //                     const Text('maybe someone already used it?'),
+              //                 actions: [
+              //                   CupertinoDialogAction(
+              //                     child: const Text('ok'),
+              //                     onPressed: () {
+              //                       Navigator.pop(context);
+              //                     },
+              //                   ),
+              //                 ],
+              //               ),
+              //             );
+              //           }
+              //         }
+              //       : null,
+              //   child: const Text('verify'),
+              // ),
               CupertinoButton.filled(
                 onPressed: verifyEnabled
-                    ? () async {
+                    ? () {
                         final String enteredCode =
                             _inviteCodeController.text.toString();
-                        Future<bool> result = verifyInviteCode(
-                          enteredCode,
-                          pb,
-                        );
-                        if (await result) {
-                          Navigator.pop(context); // dismiss modal
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  SignupPage(inviteCode: enteredCode),
-                            ),
-                          );
-                        } else {
-                          // invalid invite code, show cupertino dialogue
+                        Navigator.pop(context); // dismiss modal
+                        // check to see if they entered 'humility'
+                        if (enteredCode.toLowerCase() == 'humility') {
                           showCupertinoDialog(
                             context: context,
                             builder: (context) => CupertinoAlertDialog(
                               title: const Text('invalid invite code'),
-                              content:
-                                  const Text('maybe someone already used it?'),
+                              content: const Text(
+                                  'sorry, humility is not a pillar. try again.'),
                               actions: [
                                 CupertinoDialogAction(
                                   child: const Text('ok'),
@@ -103,7 +145,15 @@ class _InviteCodeModalState extends State<InviteCodeModal> {
                               ],
                             ),
                           );
-                        }
+                          return;
+                        } // end humility check
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                SignupPage(inviteCode: enteredCode),
+                          ),
+                        );
                       }
                     : null,
                 child: const Text('verify'),

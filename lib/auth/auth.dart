@@ -10,12 +10,13 @@ import '../pages/welcome_page.dart';
 
 class AuthService {
   // sign up
-  Future<void> signUp(
+  Future<String> signUp(
     String name,
     String username,
+    String email,
     String password,
     String passwordConfirm,
-    String inviteCode,
+    String pillar,
     BuildContext context,
   ) async {
     final pb = locator<PocketBase>();
@@ -24,34 +25,25 @@ class AuthService {
       "name": name,
       "username": username,
       "password": password,
+      "email": email,
       "passwordConfirm": passwordConfirm,
-      "invited_by": await getInvitedById(inviteCode, pb),
+      "pillar": pillar
     };
     // check if invite code is valid
-    if (await verifyInviteCode(inviteCode, pb)) {
-      try {
-        // try to create user with provided parameters
-        final signupAttempt = await pb.collection('users').create(body: body);
+    try {
+      // try to create user with provided parameters
+      final signupAttempt = await pb.collection('users').create(body: body);
 
-        // if successful, use the invite code
-        useInviteCode(inviteCode, pb);
-        // and sign the user in
-        login(
-          username,
-          password,
-          context,
-        );
-
-// debug to check if correct user id
-        debugPrint(signupAttempt.id);
-
-        // allocate invite codes
-        allocateInviteCodes(signupAttempt.id.toString(), pb);
-      } catch (e) {
-        debugPrint(e.toString());
-      }
-    } else {
-      debugPrint('invalid invite code');
+      // and sign the user in
+      login(
+        username,
+        password,
+        context,
+      );
+      return "signed up and signed in with id ${signupAttempt.id}";
+    } catch (e) {
+      debugPrint('failed to create user (auth.dart)');
+      return e.toString();
     }
   }
 

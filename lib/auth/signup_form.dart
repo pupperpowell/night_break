@@ -21,6 +21,7 @@ class _SignupFormState extends State<SignupForm> {
 
   final _nameController = TextEditingController();
   final _usernameController = TextEditingController();
+  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _passwordConfirmController = TextEditingController();
 
@@ -34,6 +35,10 @@ class _SignupFormState extends State<SignupForm> {
     });
 
     _usernameController.addListener(() {
+      _checkSignupEligibile();
+    });
+
+    _emailController.addListener(() {
       _checkSignupEligibile();
     });
 
@@ -55,6 +60,14 @@ class _SignupFormState extends State<SignupForm> {
     return false;
   }
 
+  bool checkEmail() {
+    final regex = RegExp(r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
+    if (regex.hasMatch(_emailController.text)) {
+      return true;
+    }
+    return false;
+  }
+
   void _checkSignupEligibile() {
     // name is entered, username is available, and passwords match
     setState(
@@ -62,7 +75,8 @@ class _SignupFormState extends State<SignupForm> {
         _signupEnabled = _nameController.text.isNotEmpty &&
             _usernameController.text.isNotEmpty &&
             _passwordController.text.isNotEmpty &&
-            checkPasswords();
+            checkPasswords() &&
+            checkEmail();
       },
     );
   }
@@ -76,11 +90,11 @@ class _SignupFormState extends State<SignupForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const SizedBox(height: 24.0),
+          const SizedBox(height: 12.0),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 6.0),
-            child: Text('first and last name',
-                style: Theme.of(context).textTheme.labelMedium),
+            child: Text('what\'s your name?',
+                style: Theme.of(context).textTheme.labelLarge),
           ),
           AuthTextField(
             controller: _nameController,
@@ -92,7 +106,7 @@ class _SignupFormState extends State<SignupForm> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 6.0),
             child: Text('enter a username',
-                style: Theme.of(context).textTheme.labelMedium),
+                style: Theme.of(context).textTheme.labelLarge),
           ),
           AuthTextField(
             controller: _usernameController,
@@ -103,8 +117,21 @@ class _SignupFormState extends State<SignupForm> {
           const SizedBox(height: 24.0),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 6.0),
+            child: Text(
+                'enter your email address\n(will only be used for password resets)',
+                style: Theme.of(context).textTheme.labelLarge),
+          ),
+          AuthTextField(
+            controller: _emailController,
+            hintText: 'email',
+            obscureText: false,
+            shimmer: false,
+          ),
+          const SizedBox(height: 24.0),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 6.0),
             child: Text('enter a password (at least 6 characters)',
-                style: Theme.of(context).textTheme.labelMedium),
+                style: Theme.of(context).textTheme.labelLarge),
           ),
           AuthTextField(
             controller: _passwordController,
@@ -120,18 +147,43 @@ class _SignupFormState extends State<SignupForm> {
             shimmer: false,
           ),
           const SizedBox(height: 48.0),
+
+          // if there are any problems with signing up, show cupertino dialogue
+
           CupertinoButton(
             color: Theme.of(context).colorScheme.secondary,
             onPressed: _signupEnabled
                 ? () {
-                    authService.signUp(
-                      _nameController.text,
-                      _usernameController.text,
-                      _passwordController.text,
-                      _passwordConfirmController.text,
-                      widget.inviteCode,
-                      context,
-                    );
+                    // sign up
+                    try {
+                      Future<String> signup = authService.signUp(
+                        _nameController.text,
+                        _usernameController.text,
+                        _emailController.text,
+                        _passwordController.text,
+                        _passwordConfirmController.text,
+                        widget.inviteCode,
+                        context,
+                      );
+                      debugPrint('result of signup: ${signup.toString()}');
+                    } catch (e) {
+                      debugPrint('SIGNUP FAILED');
+                      showCupertinoDialog(
+                        context: context,
+                        builder: (context) => CupertinoAlertDialog(
+                          title: const Text('sign up failed'),
+                          content: Text(e.toString()),
+                          actions: [
+                            CupertinoDialogAction(
+                              child: const Text('ok'),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    }
                   }
                 : null,
             child: const Text(

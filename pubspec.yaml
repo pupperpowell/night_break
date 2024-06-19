@@ -11,7 +11,6 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.6
   pocketbase: ^0.18.1
-  google_fonts: ^6.1.0
   shimmer: ^3.0.0
   html: ^0.15.4
   http: ^1.2.0
@@ -26,7 +25,7 @@ assets:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.1
+  flutter_lints: ^4.0.0
 
 flutter:
   uses-material-design: true
