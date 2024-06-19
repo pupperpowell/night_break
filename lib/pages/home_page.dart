@@ -19,7 +19,13 @@ class HomePage extends StatelessWidget {
         child: Center(
           child: Column(
             children: [
-              const Text('Home'),
+              const SizedBox(height: 16.0),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text('Welcome to Night Break v0.1'),
+              ),
+              const Text("made with love by George Powell"),
+              const SizedBox(height: 16.0),
               CupertinoButton.filled(
                 onPressed: () => authService.refresh(context),
                 child: const Text('refresh'),
