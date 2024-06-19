@@ -7,7 +7,7 @@ class AboutModal extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(24.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -36,7 +36,8 @@ class AboutModal extends StatelessWidget {
             Text(
               "Looking for an invite code? Here's a hint: humility is not a pillar. That leaves you with six other options. I hope you enjoy this app!",
               style: Theme.of(context).textTheme.bodyLarge,
-            )
+            ),
+            const SizedBox(height: 18.0),
           ],
         ),
       ),

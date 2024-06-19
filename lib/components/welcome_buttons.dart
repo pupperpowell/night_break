@@ -49,7 +49,7 @@ class WelcomeButtons extends StatelessWidget {
                 context: context,
                 showDragHandle: true,
                 isScrollControlled: true,
-                // backgroundColor: Colors.black,
+                backgroundColor: Colors.black.withOpacity(0.9),
                 builder: (context) => const AboutModal(),
               );
             },

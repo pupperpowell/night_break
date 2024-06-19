@@ -1,12 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pocketbase/pocketbase.dart';
-import 'package:provider/provider.dart';
 
 import '../auth/signup_page.dart';
 import '../locator.dart';
 import 'auth_text_field.dart';
-import '../logic/invite_code_logic.dart';
 
 class InviteCodeModal extends StatefulWidget {
   const InviteCodeModal({super.key});
