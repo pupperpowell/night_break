@@ -69,6 +69,7 @@ class _LoginModalState extends State<LoginModal> {
                 hintText: 'password',
                 obscureText: true,
                 shimmer: false,
+                // todo: implement onSubmitted for login on enter press
               ),
               const SizedBox(height: 24.0),
               // LOGIN BUTTON

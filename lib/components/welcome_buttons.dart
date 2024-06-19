@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../pages/about_page.dart';
+import 'about_modal.dart';
 import 'invite_code_modal.dart';
 import '../auth/login_modal.dart';
 
@@ -50,7 +50,7 @@ class WelcomeButtons extends StatelessWidget {
                 showDragHandle: true,
                 isScrollControlled: true,
                 // backgroundColor: Colors.black,
-                builder: (context) => const AboutPage(),
+                builder: (context) => const AboutModal(),
               );
             },
             child: const Text('about this app'),

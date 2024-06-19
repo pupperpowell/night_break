@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:get_it/get_it.dart';
-import 'package:night_break/logic/invite_code_logic.dart';
+import 'package:night_break/main.dart';
 import 'package:pocketbase/pocketbase.dart';
 
 import '../locator.dart';
-import '../pages/home_page.dart';
 import '../pages/welcome_page.dart';
 
 class AuthService {
@@ -97,7 +96,7 @@ class AuthPage extends StatelessWidget {
         builder: (context, snapshot) {
           if (pb.authStore.isValid) {
             debugPrint('valid token detected- user is logged in.');
-            return const HomePage();
+            return const Home();
           } else {
             return const WelcomePage();
           }
