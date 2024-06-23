@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../components/candle.dart';
+
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
@@ -16,6 +18,8 @@ class HomePage extends StatelessWidget {
                 child: Text('Welcome to Night Break v0.2'),
               ),
               Text("made with love by George Powell"),
+              SizedBox(height: 32.0),
+              Candle(),
             ],
           ),
         ),
