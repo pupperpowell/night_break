@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
 import '../components/candle.dart';
+import '../components/flame.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: SafeArea(
         child: Center(
           child: Column(
@@ -19,6 +20,7 @@ class HomePage extends StatelessWidget {
               ),
               Text("made with love by George Powell"),
               SizedBox(height: 32.0),
+              Flame(),
               Candle(),
             ],
           ),
