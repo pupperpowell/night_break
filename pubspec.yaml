@@ -1,10 +1,10 @@
 name: night_break
 description: "A new Flutter project."
-publish_to: 'none'
-version: 0.1.0
+publish_to: "none"
+version: 0.2.0
 
 environment:
-  sdk: '>=3.2.6 <4.0.0'
+  sdk: ">=3.2.6 <4.0.0"
 
 dependencies:
   flutter:
@@ -18,9 +18,11 @@ dependencies:
   get_it: ^7.6.7
   flutter_secure_storage: ^9.0.0
   material_symbols_icons: ^4.2762.0
+  flutter_shaders: ^0.1.2
 
 assets:
   - assets/fonts/
+  - assets/shaders/
 
 dev_dependencies:
   flutter_test:
@@ -29,3 +31,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  shaders:
+    - assets/shaders/flame_shader.frag
