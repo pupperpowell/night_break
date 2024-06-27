@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pocketbase/pocketbase.dart';
 
 import '../auth/signup_page.dart';
-import '../locator.dart';
+
 import 'auth_text_field.dart';
 
 class InviteCodeModal extends StatefulWidget {
@@ -56,7 +55,7 @@ class _InviteCodeModalState extends State<InviteCodeModal> {
 
   @override
   Widget build(BuildContext context) {
-    final pb = locator<PocketBase>();
+    // final pb = locator<PocketBase>();
     return SingleChildScrollView(
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom,

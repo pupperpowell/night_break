@@ -1,83 +1,86 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
-import 'dart:math' as math;
+import 'package:night_break/components/flame_shader_widget.dart';
 
 class Candle extends StatefulWidget {
-  final double width;
-  final double height;
-
-  const Candle({super.key, this.width = 50, this.height = 100});
+  const Candle({super.key});
 
   @override
-  _CandleState createState() => _CandleState();
+  CandleState createState() => CandleState();
 }
 
-class _CandleState extends State<Candle> with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 1500),
-    )..repeat(reverse: false);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
+class CandleState extends State<Candle> {
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, child) {
-        return CustomPaint(
-          size: Size(widget.width, widget.height),
-          painter: CandlePainter(_controller.value),
-        );
-      },
+    return Column(
+      children: [
+        Stack(
+          alignment: Alignment.center,
+          clipBehavior: Clip.none,
+          children: <Widget>[
+            CustomPaint(
+              size: const Size(18, 150),
+              painter: CandlePainter(),
+            ),
+            const Positioned(
+              top: -12,
+              child: SizedBox(
+                width: 160, // or any size you want
+                height: 60, // or any size you want
+                child: RepaintBoundary(child: FlameShaderWidget()),
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
 
 class CandlePainter extends CustomPainter {
-  final double animationValue;
-  final Random random = Random();
-
-  CandlePainter(this.animationValue);
-
   @override
   void paint(Canvas canvas, Size size) {
-    final candlePaint = Paint()..color = Colors.white;
-    final flamePaint = Paint()..color = Colors.orange;
+    final wickPaint = Paint()
+      ..shader = const LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          Colors.black,
+          Colors.black,
+          Color(0xFFE8C1A0),
+          Color(0xFFE8C1A0),
+        ],
+        stops: [0.0, 0.4, 0.75, 1.0],
+      ).createShader(Rect.fromLTWH(size.width / 2 - 2, 40, 4, 22));
 
-    // Draw candle body
-    canvas.drawRect(
-      Rect.fromLTWH(size.width * 0.3, size.height * 0.3, size.width * 0.4,
-          size.height * 0.7),
-      candlePaint,
+    final waxPaint = Paint()
+      ..shader = const LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          Color(0xFFFF9224),
+          Color(0xFFFF9224),
+          Color(0xFF58523A),
+        ],
+        stops: [0.0, 0.2, 1.0],
+      ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
+
+    // Draw wax
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromLTWH(0, 50, size.width, size.height - 48),
+        const Radius.circular(15),
+      ),
+      waxPaint,
     );
 
-    // Draw flickering flame
-    final flamePath = Path();
-    flamePath.moveTo(size.width * 0.5, size.height * 0.3);
-
-    for (var i = 0; i < 5; i++) {
-      final x = size.width * 0.5 +
-          math.sin(animationValue * math.pi * 2 + i) * size.width * 0.1;
-      final y = size.height * (0.3 - i * 0.05) -
-          random.nextDouble() * size.height * 0.05 * animationValue;
-      flamePath.lineTo(x, y);
-    }
-
-    flamePath.lineTo(size.width * 0.5, size.height * 0.3);
-    canvas.drawPath(flamePath, flamePaint);
+    // Draw wick
+    canvas.drawRRect(
+        RRect.fromRectAndRadius(
+          Rect.fromLTWH(size.width / 2 - 2, 40, 4, 22),
+          const Radius.circular(25),
+        ),
+        wickPaint);
   }
 
   @override

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:night_break/components/candle.dart';
+import 'package:night_break/components/candle_stand.dart';
 
 class QuietRoom extends StatelessWidget {
   const QuietRoom({super.key});
@@ -13,7 +14,6 @@ class QuietRoom extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text('Quiet Room'),
-            const Candle(),
             CupertinoButton.filled(
               onPressed: () {
                 Navigator.pop(context);

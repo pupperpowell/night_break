@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:ui';
 
 ThemeData nightBreakDarkTheme = ThemeData(
   brightness: Brightness.dark,
@@ -9,12 +10,12 @@ ThemeData nightBreakDarkTheme = ThemeData(
     secondary: Colors.blueGrey,
   ),
   textTheme: TextTheme(
-    displayLarge: TextStyle(
-      //breaks live update?
-      fontWeight: FontWeight.w500,
-      // fontFamily: inter
-      color: Colors.grey.shade200,
-    ),
+    // displayLarge: TextStyle(
+    //   //breaks live update?
+    //   fontWeight: FontWeight.w500,
+    //   // fontFamily: inter
+    //   color: Colors.grey.shade200,
+    // ),
     headlineMedium: TextStyle(
       color: Colors.grey.shade400,
     ),

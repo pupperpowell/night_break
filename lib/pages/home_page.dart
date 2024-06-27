@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-
-import '../components/candle.dart';
-import '../components/flame.dart';
+import 'package:night_break/components/candle.dart';
+import 'package:night_break/components/flame_shader_widget.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: SafeArea(
         child: Center(
           child: Column(
@@ -20,7 +19,12 @@ class HomePage extends StatelessWidget {
               ),
               Text("made with love by George Powell"),
               SizedBox(height: 32.0),
-              Flame(),
+              // SizedBox(
+              //   width: 240, // or any size you want
+              //   height: 100, // or any size you want
+              //   child: RepaintBoundary(child: FlameShaderWidget()),
+              // ),
+              SizedBox(height: 32.0),
               Candle(),
             ],
           ),

@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'dart:io' show Platform;
 
+import '../main.dart';
 import 'about_modal.dart';
 import 'invite_code_modal.dart';
 import '../auth/login_modal.dart';
@@ -15,6 +17,21 @@ class WelcomeButtons extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          // debug login
+
+          CupertinoButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Home()),
+              );
+            },
+            child: const Text('debug login'),
+          ),
+          const SizedBox(height: 16.0),
+
+          // invite code
+
           CupertinoButton.filled(
             onPressed: () {
               showModalBottomSheet(
@@ -28,6 +45,7 @@ class WelcomeButtons extends StatelessWidget {
           ),
           const SizedBox(height: 16.0),
 
+          // login
           CupertinoButton(
             onPressed: () {
               showModalBottomSheet(
