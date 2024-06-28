@@ -3,13 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:night_break/components/flame_shader_widget.dart';
 
 class Candle extends StatefulWidget {
-  const Candle({super.key});
+  final DateTime created;
+  final double scale;
+
+  const Candle({super.key, required this.created, required this.scale});
 
   @override
   CandleState createState() => CandleState();
 }
 
 class CandleState extends State<Candle> {
+  double scale = 100.0;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -23,10 +28,10 @@ class CandleState extends State<Candle> {
               painter: CandlePainter(),
             ),
             const Positioned(
-              top: -12,
+              top: 20,
               child: SizedBox(
-                width: 160, // or any size you want
-                height: 60, // or any size you want
+                width: 100, // should always be aspect ratio 8:3
+                height: 38,
                 child: RepaintBoundary(child: FlameShaderWidget()),
               ),
             ),
@@ -45,10 +50,14 @@ class CandlePainter extends CustomPainter {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          Colors.black,
-          Colors.black,
+          // Colors.black,
+          // Colors.black,
+          // Color(0xFFE8C1A0),
+          // Color(0xFFE8C1A0),
           Color(0xFFE8C1A0),
           Color(0xFFE8C1A0),
+          Colors.black,
+          Colors.black,
         ],
         stops: [0.0, 0.4, 0.75, 1.0],
       ).createShader(Rect.fromLTWH(size.width / 2 - 2, 40, 4, 22));
@@ -68,7 +77,8 @@ class CandlePainter extends CustomPainter {
     // Draw wax
     canvas.drawRRect(
       RRect.fromRectAndRadius(
-        Rect.fromLTWH(0, 50, size.width, size.height - 48),
+        Rect.fromLTWH(
+            0, 50, size.width, size.height), // last element is height.?
         const Radius.circular(15),
       ),
       waxPaint,

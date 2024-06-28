@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:night_break/components/candle.dart';
-import 'package:night_break/components/candle_stand.dart';
 
 class QuietRoom extends StatelessWidget {
   const QuietRoom({super.key});
+
+  /*
+   * https://claude.ai/chat/5b2b06b1-bf42-477e-94b5-2a83bd2bf1b9
+  */
 
   @override
   Widget build(BuildContext context) {

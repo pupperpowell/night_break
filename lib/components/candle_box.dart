@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 
-class CandleStand extends StatelessWidget {
-  const CandleStand({super.key});
+class CandleBox extends StatelessWidget {
+  const CandleBox({super.key});
 
   @override
   Widget build(BuildContext context) {

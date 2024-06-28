@@ -73,7 +73,7 @@ class _HomeState extends State<Home> {
       ),
       body: <Widget>[
         const HomePage(),
-        const CandleStandPage(),
+        CandleStandPage(),
         const SettingsPage(),
       ].elementAt(_currentPageIndex),
     );

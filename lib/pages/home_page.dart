@@ -7,25 +7,20 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: SafeArea(
         child: Center(
           child: Column(
             children: [
-              SizedBox(height: 16.0),
-              Padding(
+              const SizedBox(height: 16.0),
+              const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text('Welcome to Night Break v0.2'),
               ),
-              Text("made with love by George Powell"),
-              SizedBox(height: 32.0),
-              // SizedBox(
-              //   width: 240, // or any size you want
-              //   height: 100, // or any size you want
-              //   child: RepaintBoundary(child: FlameShaderWidget()),
-              // ),
-              SizedBox(height: 32.0),
-              Candle(),
+              const Text("made with love by George Powell"),
+              const SizedBox(height: 16.0),
+              // Create a new Candle with created parameter set to true and scale set to 0.5
+              Candle(created: DateTime.now(), scale: 0.5),
             ],
           ),
         ),

@@ -1,11 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pocketbase/pocketbase.dart';
 
 import 'quiet_room.dart';
+import '../logic/candle_logic.dart';
 
-class CandleStandPage extends StatelessWidget {
-  const CandleStandPage({super.key});
+class CandleStandPage extends StatefulWidget {
+  @override
+  CandleStandPageState createState() => CandleStandPageState();
+}
 
+class CandleStandPageState extends State<CandleStandPage> {
+  late CandleLogic candleLogic;
+  List<RecordModel> candles = [];
+
+  @override
+  void initState() {
+    super.initState();
+    candleLogic = CandleLogic();
+    candleLogic.onCandleUpdate;
+    candleLogic.subscribeToCandleChanges();
+
+    CandleLogic.getCandles();
+  }
 // https://docs.flutter.dev/ui/layout
 
   @override
@@ -57,6 +74,14 @@ class CandleStandPage extends StatelessWidget {
               },
               child: const Text('light a candle'),
             ),
+            const SizedBox(height: 16.0),
+            ElevatedButton(
+              onPressed: () {
+                CandleLogic.getCandles();
+              },
+              child: const Text('Get Candles'),
+            ),
+            const SizedBox(height: 16.0),
           ],
         ),
       ),

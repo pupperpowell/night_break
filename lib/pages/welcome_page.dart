@@ -20,7 +20,6 @@ class WelcomePage extends StatelessWidget {
           children: [
             TitleSection(),
             Spacer(),
-            Candle(),
             WelcomeButtons(),
           ],
         ),
