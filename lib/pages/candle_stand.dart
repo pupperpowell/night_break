@@ -94,18 +94,18 @@ class CandleStandPageState extends State<CandleStandPage> {
                 showCupertinoDialog(
                   context: context,
                   builder: (context) => CupertinoAlertDialog(
-                    title: const Text('thank you for being here'),
+                    title: const Text('take a moment to be still'),
                     content: const Padding(
                       padding: EdgeInsets.all(6.0),
                       child: Column(
                         children: [
                           Text(
-                              'turning off your screen or going to a different app will put out your candle'),
+                              'Important: please leave this app open or else it won\'t work!'),
                           SizedBox(height: 6.0),
                           Text(
-                              'a bell will ring when your time is up, and every minute after that.'),
+                              'a sound will play when your time is up, and every minute after that.'),
                           SizedBox(height: 6.0),
-                          Text("enjoy."),
+                          Text("enjoy :)"),
                         ],
                       ),
                     ),
