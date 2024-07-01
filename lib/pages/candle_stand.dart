@@ -6,24 +6,37 @@ import 'quiet_room.dart';
 import '../logic/candle_logic.dart';
 
 class CandleStandPage extends StatefulWidget {
+  const CandleStandPage({super.key});
+
   @override
   CandleStandPageState createState() => CandleStandPageState();
 }
 
 class CandleStandPageState extends State<CandleStandPage> {
-  late CandleLogic candleLogic;
-  List<RecordModel> candles = [];
-
-  @override
-  void initState() {
-    super.initState();
-    candleLogic = CandleLogic();
-    candleLogic.onCandleUpdate;
-    candleLogic.subscribeToCandleChanges();
-
-    CandleLogic.getCandles();
-  }
 // https://docs.flutter.dev/ui/layout
+
+  int _minuteGoal = 1;
+
+  void _showTimeDialog(Widget child) {
+    showCupertinoModalPopup<void>(
+      context: context,
+      builder: (BuildContext context) => Container(
+        height: 216,
+        padding: const EdgeInsets.only(top: 6.0),
+        // The Bottom margin is provided to align the popup above the system navigation bar.
+        margin: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        // Provide a background color for the popup.
+        color: CupertinoColors.systemBackground.resolveFrom(context),
+        // Use a SafeArea widget to avoid system overlaps.
+        child: SafeArea(
+          top: false,
+          child: child,
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +47,43 @@ class CandleStandPageState extends State<CandleStandPage> {
           children: [
             const Text('welcome to the candle stand'),
             const SizedBox(height: 16.0),
-            const Text('I want to be here for '),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('I want to be here for '),
+                CupertinoButton(
+                  padding: EdgeInsets.zero,
+                  // Display a CupertinoPicker with list of numbers.
+                  onPressed: () => _showTimeDialog(
+                    CupertinoPicker(
+                      magnification: 1.22,
+                      squeeze: 1.2,
+                      useMagnifier: true,
+                      itemExtent: 32,
+                      // This sets the initial item.
+                      scrollController: FixedExtentScrollController(
+                        initialItem: _minuteGoal - 1,
+                      ),
+                      // This is called when selected item is changed.
+                      onSelectedItemChanged: (int selectedItem) {
+                        setState(() {
+                          _minuteGoal = selectedItem + 1;
+                        });
+                      },
+                      children: List<Widget>.generate(10, (int index) {
+                        return Center(child: Text('${index + 1}'));
+                      }),
+                    ),
+                  ),
+                  // This displays the selected number.
+                  child: Text(
+                    _minuteGoal == 1
+                        ? '$_minuteGoal minute'
+                        : '$_minuteGoal minutes',
+                  ),
+                ),
+              ],
+            ),
             CupertinoButton.filled(
               onPressed: () {
                 Navigator.push(
@@ -75,12 +124,6 @@ class CandleStandPageState extends State<CandleStandPage> {
               child: const Text('light a candle'),
             ),
             const SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: () {
-                CandleLogic.getCandles();
-              },
-              child: const Text('Get Candles'),
-            ),
             const SizedBox(height: 16.0),
           ],
         ),
