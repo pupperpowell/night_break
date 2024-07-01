@@ -13,7 +13,13 @@ class Candle extends StatefulWidget {
 }
 
 class CandleState extends State<Candle> {
-  double scale = 100.0;
+  /*
+   * TODO:
+   * 1. make candle shorter and shorter over time
+   *    (full height at 0 minutes, 0 height at 6 hours)
+   * 2. change candle+flame size by this.scale
+   * 
+   */
 
   @override
   Widget build(BuildContext context) {

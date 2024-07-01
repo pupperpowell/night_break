@@ -6,7 +6,7 @@ uniform float uTime;
 // Variables
 #define Bloom 0.05
 #define VerticalMotion 0.01
-#define HorizontalMotion 0.10
+#define HorizontalMotion 0.20
 
 out vec4 fragColor;
 

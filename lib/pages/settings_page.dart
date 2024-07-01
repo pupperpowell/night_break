@@ -11,20 +11,22 @@ class SettingsPage extends StatelessWidget {
     final authService = AuthService();
 
     return Scaffold(
-      body: Center(
-        child: Column(
-          children: [
-            const Padding(
-              padding: EdgeInsets.all(32.0),
-              child: Text('Settings'),
-            ),
-            const SizedBox(height: 16.0),
-            CupertinoButton.filled(
-              onPressed: () => authService.logout(),
-              child: const Text('logout'),
-            ),
-            const SizedBox(height: 16.0),
-          ],
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            children: [
+              const Padding(
+                padding: EdgeInsets.all(32.0),
+                child: Text('Settings'),
+              ),
+              const SizedBox(height: 16.0),
+              CupertinoButton.filled(
+                onPressed: () => authService.logout(),
+                child: const Text('logout'),
+              ),
+              const SizedBox(height: 16.0),
+            ],
+          ),
         ),
       ),
     );

@@ -69,7 +69,7 @@ class _HomeState extends State<Home> {
           ),
         ],
         backgroundColor: Colors.black,
-        height: 70,
+        height: 50, // 50 for iOS, 70 for android?
       ),
       body: <Widget>[
         const HomePage(),
