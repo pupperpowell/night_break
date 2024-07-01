@@ -6,9 +6,12 @@ import '../locator.dart';
 final pb = locator<PocketBase>();
 
 class CandleLogic {
+  bool _isSubscribed = false;
+
+  // idk what this does
   Function(RecordSubscriptionEvent)? onCandleUpdate;
 
-  static Future<List<RecordModel>> getCandles() async {
+  static Future<List<RecordModel>> fetchCandles() async {
     final now = DateTime.now();
     final sixHoursAgo = now.subtract(const Duration(hours: 6));
 
@@ -36,17 +39,25 @@ class CandleLogic {
   }
 
   void subscribeToCandleChanges() {
+    if (_isSubscribed) return;
     pb.collection('candles').subscribe('*', (RecordSubscriptionEvent event) {
       debugPrint('Candle change: ${event.action}');
       debugPrint('Updated candle: ${event.record}');
 
       if (onCandleUpdate != null) {
         onCandleUpdate!(event);
+        debugPrint("new candle event detected");
       }
     });
+    debugPrint('subscribed to candle changes.');
+    _isSubscribed = true;
   }
 
   void unsubscribeFromCandleChanges() {
+    if (!_isSubscribed) return;
+
     pb.collection('candles').unsubscribe();
+    debugPrint("no longer subscribed");
+    _isSubscribed = false;
   }
 }
