@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pocketbase/pocketbase.dart';
 
+import '../locator.dart';
+import '../logic/candle_logic.dart';
 import 'quiet_room.dart';
 
 class CandleStandPage extends StatefulWidget {
@@ -14,6 +17,16 @@ class CandleStandPageState extends State<CandleStandPage> {
 // https://docs.flutter.dev/ui/layout
 
   int _minuteGoal = 1;
+
+  late CandleLogic candleLogic;
+  List<RecordModel> candles = [];
+
+  @override
+  void initState() {
+    super.initState();
+    candleLogic = locator<CandleLogic>();
+    candleLogic.subscribeToCandleChanges();
+  }
 
   void _showTimeDialog(Widget child) {
     showCupertinoModalPopup<void>(
@@ -34,6 +47,12 @@ class CandleStandPageState extends State<CandleStandPage> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    candleLogic.unsubscribeFromCandleChanges();
+    super.dispose();
   }
 
   @override
@@ -98,7 +117,16 @@ class CandleStandPageState extends State<CandleStandPage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const QuietRoom()),
+                  PageRouteBuilder(
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      return FadeTransition(opacity: animation, child: child);
+                    },
+                    transitionDuration: const Duration(seconds: 1),
+                    pageBuilder: (context, animation, secondaryAnimation) {
+                      return const QuietRoom();
+                    },
+                  ),
                 );
                 // show the dialog for quiet room
                 showCupertinoDialog(
@@ -124,6 +152,7 @@ class CandleStandPageState extends State<CandleStandPage> {
                         isDefaultAction: true,
                         onPressed: () {
                           Navigator.of(context).pop();
+                          CandleLogic.createCandle(/* recordId */);
                         },
                         child: const Text('okay'),
                       ),
