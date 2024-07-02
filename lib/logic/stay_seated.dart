@@ -78,6 +78,11 @@ class StaySeatedState extends State<StaySeated> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return Text('Foreground time: ${currentForegroundTime.inSeconds} seconds');
+    return Text(
+      currentForegroundTime.inMinutes <= 1
+          ? 'you\'ve been here for less than a minute'
+          : 'you\'ve been here for ${currentForegroundTime.inMinutes} minutes',
+      style: const TextStyle(color: Colors.grey),
+    );
   }
 }
