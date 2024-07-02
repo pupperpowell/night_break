@@ -46,13 +46,17 @@ class CandleStandPageState extends State<CandleStandPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text('welcome to the candle stand'),
-            const SizedBox(height: 16.0),
+            const SizedBox(height: 8.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text('I want to be here for '),
                 CupertinoButton(
-                  padding: EdgeInsets.zero,
+                  minSize: 0,
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 8.0, vertical: 4.0),
+                  color: Theme.of(context).colorScheme.secondary,
+                  borderRadius: BorderRadius.circular(24.0),
                   // Display a CupertinoPicker with list of numbers.
                   onPressed: () => _showTimeDialog(
                     CupertinoPicker(
@@ -76,14 +80,22 @@ class CandleStandPageState extends State<CandleStandPage> {
                     ),
                   ),
                   // This displays the selected number.
-                  child: Text(
-                    _minuteGoal == 1
-                        ? '$_minuteGoal minute'
-                        : '$_minuteGoal minutes',
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        _minuteGoal == 1
+                            ? '$_minuteGoal minute'
+                            : '$_minuteGoal minutes',
+                      ),
+                      const SizedBox(width: 4.0),
+                      const Icon(CupertinoIcons.chevron_down, size: 12.0),
+                    ],
                   ),
                 ),
               ],
             ),
+            const SizedBox(height: 32.0),
             CupertinoButton.filled(
               onPressed: () {
                 Navigator.push(
