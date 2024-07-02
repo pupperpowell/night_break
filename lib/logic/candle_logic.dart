@@ -6,11 +6,13 @@ import '../locator.dart';
 final pb = locator<PocketBase>();
 
 class CandleLogic {
+  List<RecordModel> candles = [];
   bool _isSubscribed = false;
 
   // idk what this does
   Function(RecordSubscriptionEvent)? onCandleUpdate;
 
+  // get candles from database
   static Future<List<RecordModel>> fetchCandles() async {
     final now = DateTime.now();
     final sixHoursAgo = now.subtract(const Duration(hours: 6));
@@ -24,6 +26,11 @@ class CandleLogic {
 
     debugPrint('recent candles: ${resultList.items.length}');
     return resultList.items;
+  }
+
+  // get global candles
+  List<RecordModel> getCandles() {
+    return candles;
   }
 
   static Future<int> getTotalCandles() async {

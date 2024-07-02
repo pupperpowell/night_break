@@ -3,6 +3,7 @@ import 'package:material_symbols_icons/symbols.dart';
 
 import 'package:night_break/auth/auth.dart';
 import 'package:night_break/locator.dart';
+import 'package:night_break/logic/candle_logic.dart';
 import 'package:night_break/theme/dark_theme.dart';
 
 import 'pages/candle_stand.dart';
@@ -11,6 +12,8 @@ import 'pages/settings_page.dart';
 
 Future<void> main() async {
   await setup();
+  await CandleLogic.fetchCandles();
+
   runApp(
     const MainApp(),
   );

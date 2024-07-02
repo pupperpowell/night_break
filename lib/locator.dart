@@ -22,9 +22,9 @@ Future<void> setup() async {
     authStore: customAuthStore,
   );
 
-  final CandleLogic globalCandles = CandleLogic();
+  final candleClass = CandleLogic();
 
   locator.registerSingleton<PocketBase>(pb);
-  locator.registerSingleton<CandleLogic>(globalCandles);
+  locator.registerSingleton<CandleLogic>(candleClass);
   locator.registerSingleton<FlutterSecureStorage>(storage);
 }

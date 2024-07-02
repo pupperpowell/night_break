@@ -23,8 +23,7 @@ class QuietRoom extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text('Quiet Room'),
-              const SizedBox(height: 16.0),
+              const SizedBox(height: 32.0),
               const StaySeated(),
               const Spacer(),
               const CandleBox(),
