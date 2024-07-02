@@ -34,3 +34,4 @@ flutter:
 
   shaders:
     - assets/shaders/flame_shader.frag
+    - assets/shaders/sand.frag

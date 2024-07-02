@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:night_break/logic/stay_seated.dart';
 
+import '../components/candle_box.dart';
+
 class QuietRoom extends StatelessWidget {
   const QuietRoom({super.key});
 
@@ -25,11 +27,15 @@ class QuietRoom extends StatelessWidget {
               const SizedBox(height: 16.0),
               const StaySeated(),
               const Spacer(),
+              const CandleBox(),
+              const Spacer(),
               CupertinoButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: const Text('leave early'),
+                child: const Text(
+                  'leave early',
+                ),
               ),
             ],
           ),

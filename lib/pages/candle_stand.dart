@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pocketbase/pocketbase.dart';
 
 import 'quiet_room.dart';
-import '../logic/candle_logic.dart';
 
 class CandleStandPage extends StatefulWidget {
   const CandleStandPage({super.key});

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
+import 'package:night_break/logic/candle_logic.dart';
 import 'package:pocketbase/pocketbase.dart';
 
 final locator = GetIt.instance;
@@ -16,9 +17,14 @@ Future<void> setup() async {
     clear: () => storage.delete(key: 'token'),
   );
 
-  final PocketBase pb =
-      PocketBase('https://nightbreak.app', authStore: customAuthStore);
+  final PocketBase pb = PocketBase(
+    'https://nightbreak.app',
+    authStore: customAuthStore,
+  );
+
+  final CandleLogic globalCandles = CandleLogic();
 
   locator.registerSingleton<PocketBase>(pb);
+  locator.registerSingleton<CandleLogic>(globalCandles);
   locator.registerSingleton<FlutterSecureStorage>(storage);
 }
