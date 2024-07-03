@@ -152,7 +152,9 @@ class CandleStandPageState extends State<CandleStandPage> {
                         isDefaultAction: true,
                         onPressed: () {
                           Navigator.of(context).pop();
-                          CandleLogic.createCandle(/* recordId */);
+                          CandleLogic.createCandle(
+                              pb.authStore.model.id.toString());
+                          debugPrint(pb.authStore.model.id.toString());
                         },
                         child: const Text('okay'),
                       ),
@@ -162,7 +164,6 @@ class CandleStandPageState extends State<CandleStandPage> {
               },
               child: const Text('light a candle'),
             ),
-            const SizedBox(height: 16.0),
             const SizedBox(height: 16.0),
           ],
         ),

@@ -39,10 +39,20 @@ class CandleLogic {
     return resultList.items.length;
   }
 
-  static Future<RecordModel> createCandle(String relationRecordId) async {
-    return await pb.collection('candles').create(body: {
-      'owner': relationRecordId,
-    });
+  static Future<RecordModel?> createCandle(String RELATION_RECORD_ID) async {
+    final body = <String, dynamic>{"owner": RELATION_RECORD_ID};
+    try {
+      final candleAttempt = await pb.collection('candles').create(body: body);
+      return candleAttempt;
+    } catch (e) {
+      if (e is ClientException) {
+        debugPrint('Error: ${e.response}');
+        debugPrint('Status code: ${e.statusCode}');
+      } else {
+        debugPrint('Unexpected error: ${e.toString()}');
+      }
+      return null;
+    }
   }
 
   void subscribeToCandleChanges() {
