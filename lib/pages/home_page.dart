@@ -23,14 +23,14 @@ class HomePage extends StatelessWidget {
               const Text("made with love by George Powell"),
               const SizedBox(height: 16.0),
               Candle(created: DateTime.now(), scale: 0.5),
-              const SizedBox(height: 16.0),
-              CupertinoButton(
-                onPressed: () async {
-                  List<RecordModel> candles = await CandleLogic.fetchCandles();
-                  debugPrint('candle list: $candles');
-                },
-                child: const Text('see global candles'),
-              ),
+              const SizedBox(width: 64.0),
+              // CupertinoButton(
+              //   onPressed: () async {
+              //     List<RecordModel> candles = await CandleLogic.fetchCandles();
+              //     debugPrint('candle list: $candles');
+              //   },
+              //   child: const Text('see global candles'),
+              // ),
             ],
           ),
         ),

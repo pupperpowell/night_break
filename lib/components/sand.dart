@@ -2,61 +2,63 @@ import 'package:flutter/material.dart';
 import 'package:flutter_shaders/flutter_shaders.dart';
 
 class Sand extends StatelessWidget {
-  final double graininess;
+  final double opacity;
+  final Size resolution;
   final Color baseColor;
   final Color secondaryColor;
 
   const Sand({
     super.key,
-    this.graininess = 100.0,
+    this.opacity = 0.5,
+    this.resolution = Size.infinite,
     this.baseColor = const Color(0xFFE0C9A6),
     this.secondaryColor = const Color(0xFFD2B48C),
   });
 
   @override
   Widget build(BuildContext context) {
-    return ShaderBuilder(
-      assetKey: 'assets/shaders/sand.frag',
-      (context, shader, child) {
-        return CustomPaint(
-          painter: SandyPainter(
-            shader: shader,
-            graininess: graininess,
-            baseColor: baseColor,
-            secondaryColor: secondaryColor,
-          ),
-          child: Container(),
-        );
-      },
+    return RepaintBoundary(
+      child: ShaderBuilder(
+        assetKey: 'assets/shaders/sand.frag',
+        (context, shader, child) {
+          return ShaderMask(
+            shaderCallback: (Rect bounds) {
+              return LinearGradient(
+                colors: [baseColor, secondaryColor],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ).createShader(bounds);
+            },
+            blendMode: BlendMode.overlay,
+            // Overlay the shader over the gradient
+            child: CustomPaint(
+              painter: SandyPainter(
+                shader: shader,
+                opacity: opacity,
+              ),
+              child: Container(),
+            ),
+          );
+        },
+      ),
     );
   }
 }
 
 class SandyPainter extends CustomPainter {
   final FragmentShader shader;
-  final double graininess;
-  final Color baseColor;
-  final Color secondaryColor;
+  final double opacity;
 
   SandyPainter({
     required this.shader,
-    required this.graininess,
-    required this.baseColor,
-    required this.secondaryColor,
+    required this.opacity,
   });
 
   @override
   void paint(Canvas canvas, Size size) {
-    shader
-      ..setFloat(0, size.width)
-      ..setFloat(1, size.height)
-      ..setFloat(2, graininess)
-      ..setFloat(3, baseColor.red / 255.0)
-      ..setFloat(4, baseColor.green / 255.0)
-      ..setFloat(5, baseColor.blue / 255.0)
-      ..setFloat(6, secondaryColor.red / 255.0)
-      ..setFloat(7, secondaryColor.green / 255.0)
-      ..setFloat(8, secondaryColor.blue / 255.0);
+    shader.setFloat(0, opacity);
+    shader.setFloat(1, size.width);
+    shader.setFloat(2, size.height);
 
     canvas.drawRect(
       Rect.fromLTWH(0, 0, size.width, size.height),
@@ -65,7 +67,5 @@ class SandyPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return false;
-  }
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

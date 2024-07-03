@@ -23,6 +23,7 @@ class CandleState extends State<Candle> {
 
   @override
   Widget build(BuildContext context) {
+    final scale = widget.scale;
     return Column(
       children: [
         Stack(
@@ -30,14 +31,14 @@ class CandleState extends State<Candle> {
           clipBehavior: Clip.none,
           children: <Widget>[
             CustomPaint(
-              size: const Size(18, 150),
+              size: Size(18 * scale, 150 * scale),
               painter: CandlePainter(),
             ),
-            const Positioned(
-              top: 20,
+            Positioned(
+              top: 20 * scale,
               child: SizedBox(
-                width: 100, // should always be aspect ratio 8:3
-                height: 38,
+                width: 100 * scale, // should always be aspect ratio 8:3
+                height: 38 * scale,
                 child: RepaintBoundary(child: FlameShaderWidget()),
               ),
             ),
