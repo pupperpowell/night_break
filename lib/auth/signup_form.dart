@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:night_break/components/auth_text_field.dart';
-import 'package:night_break/logic/invite_code_logic.dart';
 import 'package:pocketbase/pocketbase.dart';
 
 import '../locator.dart';

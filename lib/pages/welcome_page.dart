@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:night_break/components/title_section.dart';
 
-import '../components/candle.dart';
 import '../components/welcome_buttons.dart';
 
 /* 

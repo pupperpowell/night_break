@@ -212,6 +212,7 @@ void allocateInviteCodes(String userId, PocketBase pb) async {
     debugPrint("named invite code $code");
     // upload invite code
     try {
+      // ignore: unused_local_variable
       final record =
           await pb.collection('invite_codes').create(body: inviteCode);
       // debugPrint("generated invite code $code");

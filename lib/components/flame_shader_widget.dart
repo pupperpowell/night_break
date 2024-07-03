@@ -6,10 +6,10 @@ class FlameShaderWidget extends StatefulWidget {
   const FlameShaderWidget({super.key});
 
   @override
-  _FlameShaderWidgetState createState() => _FlameShaderWidgetState();
+  FlameShaderWidgetState createState() => FlameShaderWidgetState();
 }
 
-class _FlameShaderWidgetState extends State<FlameShaderWidget>
+class FlameShaderWidgetState extends State<FlameShaderWidget>
     with SingleTickerProviderStateMixin {
   late Ticker _ticker;
   double _time = 0.0;
