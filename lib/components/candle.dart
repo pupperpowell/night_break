@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:night_break/components/flame_shader_widget.dart';
 
 class Candle extends StatefulWidget {
@@ -13,33 +12,34 @@ class Candle extends StatefulWidget {
 }
 
 class CandleState extends State<Candle> {
-  /*
-   * TODO:
-   * 1. make candle shorter and shorter over time
-   *    (full height at 0 minutes, 0 height at 6 hours)
-   * 2. change candle+flame size by this.scale
-   * 
-   */
-
   @override
   Widget build(BuildContext context) {
-    final scale = widget.scale;
+    final now = DateTime.now();
+    final elapsedTime = now.difference(widget.created);
+    final sixHours = Duration(hours: 6);
+    final progress =
+        (elapsedTime.inMilliseconds / sixHours.inMilliseconds).clamp(0.0, 1.0);
+
+    final fullHeight = 175 * widget.scale;
+    final currentHeight = fullHeight * (1 - progress * 0.75);
+    final topOffset = fullHeight - currentHeight;
+
     return Column(
       children: [
         Stack(
-          alignment: Alignment.center,
+          alignment: Alignment.bottomCenter,
           clipBehavior: Clip.none,
           children: <Widget>[
             CustomPaint(
-              size: Size(18 * scale, 150 * scale),
-              painter: CandlePainter(),
+              size: Size(18 * widget.scale, fullHeight),
+              painter: CandlePainter(created: widget.created),
             ),
             Positioned(
-              top: 20 * scale,
+              bottom: currentHeight - (56 * widget.scale),
               child: SizedBox(
-                width: 100 * scale, // should always be aspect ratio 8:3
-                height: 38 * scale,
-                child: RepaintBoundary(child: FlameShaderWidget()),
+                width: 100 * widget.scale,
+                height: 38 * widget.scale,
+                child: const RepaintBoundary(child: FlameShaderWidget()),
               ),
             ),
           ],
@@ -50,27 +50,37 @@ class CandleState extends State<Candle> {
 }
 
 class CandlePainter extends CustomPainter {
+  final DateTime created;
+
+  CandlePainter({required this.created});
+
   @override
   void paint(Canvas canvas, Size size) {
+    final now = DateTime.now();
+    final elapsedTime = now.difference(created);
+    const sixHours = Duration(hours: 6);
+    final progress =
+        (elapsedTime.inMilliseconds / sixHours.inMilliseconds).clamp(0.0, 1.0);
+
+    final fullHeight = size.height - 50; // Full height of the wax
+    final currentHeight = fullHeight * (1 - progress);
+    final topOffset = size.height - currentHeight;
+
     final wickPaint = Paint()
-      ..shader = const LinearGradient(
+      ..shader = LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          // Colors.black,
-          // Colors.black,
-          // Color(0xFFE8C1A0),
-          // Color(0xFFE8C1A0),
           Color(0xFFE8C1A0),
           Color(0xFFE8C1A0),
           Colors.black,
           Colors.black,
         ],
         stops: [0.0, 0.4, 0.75, 1.0],
-      ).createShader(Rect.fromLTWH(size.width / 2 - 2, 40, 4, 22));
+      ).createShader(Rect.fromLTWH(size.width / 2 - 2, topOffset - 10, 4, 22));
 
     final waxPaint = Paint()
-      ..shader = const LinearGradient(
+      ..shader = LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
@@ -79,13 +89,12 @@ class CandlePainter extends CustomPainter {
           Color(0xFF58523A),
         ],
         stops: [0.0, 0.2, 1.0],
-      ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
+      ).createShader(Rect.fromLTWH(0, topOffset, size.width, currentHeight));
 
     // Draw wax
     canvas.drawRRect(
       RRect.fromRectAndRadius(
-        Rect.fromLTWH(
-            0, 50, size.width, size.height), // last element is height.?
+        Rect.fromLTWH(0, topOffset, size.width, currentHeight),
         const Radius.circular(15),
       ),
       waxPaint,
@@ -94,12 +103,19 @@ class CandlePainter extends CustomPainter {
     // Draw wick
     canvas.drawRRect(
         RRect.fromRectAndRadius(
-          Rect.fromLTWH(size.width / 2 - 2, 40, 4, 22),
+          Rect.fromLTWH(size.width / 2 - 2, topOffset - 10, 4, 22),
           const Radius.circular(25),
         ),
         wickPaint);
+
+    // Draw green box
+    final greenBoxPaint = Paint()
+      ..color = Colors.green
+      ..style = PaintingStyle.fill;
+
+    canvas.drawRect(const Rect.fromLTWH(0, 0, 5, 5), greenBoxPaint);
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
+  bool shouldRepaint(covariant CandlePainter oldDelegate) => true;
 }
