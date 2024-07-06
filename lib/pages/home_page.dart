@@ -24,39 +24,16 @@ class HomePage extends StatelessWidget {
               const SizedBox(height: 16.0),
               Row(
                 children: [
-                  Candle(created: DateTime.now(), scale: 1.0),
-                  const SizedBox(width: 8.0),
+                  const SizedBox(width: 16.0),
+                  Candle(created: DateTime.now(), scale: 1.0, owner: "uhmm"),
+                  const SizedBox(width: 16.0),
+                  Candle(created: DateTime.now(), scale: 1.0, owner: "uhmm"),
+                  const SizedBox(width: 16.0),
                   Candle(
-                      created:
-                          DateTime.now().subtract(const Duration(minutes: 30)),
-                      scale: 1.0),
-                  const SizedBox(width: 8.0),
-                  Candle(
-                    created: DateTime.now().subtract(const Duration(hours: 1)),
-                    scale: 1.0,
-                  ),
-                  const SizedBox(width: 8.0),
-                  Candle(
-                    created: DateTime.now().subtract(const Duration(hours: 2)),
-                    scale: 1.0,
-                  ),
-                  const SizedBox(width: 8.0),
-                  Candle(
-                    created: DateTime.now().subtract(const Duration(hours: 3)),
-                    scale: 1.0,
-                  ),
-                  const SizedBox(width: 8.0),
-                  Candle(
-                    created: DateTime.now().subtract(const Duration(hours: 4)),
-                    scale: 1.0,
-                  ),
-                  const SizedBox(width: 8.0),
-                  Candle(
-                    created:
-                        DateTime.now().subtract(const Duration(seconds: 17997)),
-                    scale: 1.0,
-                  ),
-                  const SizedBox(width: 8.0),
+                      created: DateTime.now(),
+                      scale: 1.0,
+                      owner: "ozbp403k8oppkw4"),
+                  const SizedBox(width: 16.0),
                 ],
               ),
               const SizedBox(width: 64.0),

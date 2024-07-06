@@ -3,11 +3,21 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:night_break/components/flame_shader_widget.dart';
 
+import 'package:pocketbase/pocketbase.dart';
+
+import '../locator.dart';
+import '../logic/candle_logic.dart';
+
 class Candle extends StatefulWidget {
   final DateTime created;
   final double scale;
+  final String owner;
 
-  const Candle({super.key, required this.created, required this.scale});
+  const Candle(
+      {super.key,
+      required this.created,
+      required this.scale,
+      required this.owner});
 
   @override
   CandleState createState() => CandleState();
@@ -83,7 +93,8 @@ class CandleState extends State<Candle> with SingleTickerProviderStateMixin {
             children: <Widget>[
               CustomPaint(
                 size: Size(18 * widget.scale, fullHeight),
-                painter: CandlePainter(created: widget.created),
+                painter:
+                    CandlePainter(created: widget.created, owner: widget.owner),
               ),
               Positioned(
                 bottom: currentHeight - (57 * widget.scale),
@@ -103,8 +114,9 @@ class CandleState extends State<Candle> with SingleTickerProviderStateMixin {
 
 class CandlePainter extends CustomPainter {
   final DateTime created;
+  final String owner;
 
-  CandlePainter({required this.created});
+  CandlePainter({required this.created, required this.owner});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -132,7 +144,7 @@ class CandlePainter extends CustomPainter {
       ).createShader(Rect.fromLTWH(size.width / 2 - 2, topOffset - 10, 4, 22));
 
     final waxPaint = Paint()
-      ..shader = LinearGradient(
+      ..shader = const LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
@@ -160,12 +172,26 @@ class CandlePainter extends CustomPainter {
         ),
         wickPaint);
 
-    // Draw green box
-    final greenBoxPaint = Paint()
-      ..color = Colors.green
-      ..style = PaintingStyle.fill;
+    // Draw green box (debug)
+    // final greenBoxPaint = Paint()
+    //   ..color = Colors.green
+    //   ..style = PaintingStyle.fill;
+    // canvas.drawRect(const Rect.fromLTWH(0, 0, 5, 5), greenBoxPaint);
 
-    canvas.drawRect(const Rect.fromLTWH(0, 0, 5, 5), greenBoxPaint);
+    // Draw white outline around candle if the logged in user matches the candle.owner
+    if (pb.authStore.model.id.toString() == owner) {
+      // final outlinePaint = Paint()
+      //   ..color = Colors.white
+      //   ..style = PaintingStyle.stroke
+      //   ..strokeWidth = 1;
+      // canvas.drawRRect(
+      //   RRect.fromRectAndRadius(
+      //     Rect.fromLTWH(0, topOffset, size.width, currentHeight),
+      //     const Radius.circular(15),
+      //   ),
+      //   outlinePaint,
+      // );
+    }
   }
 
   @override

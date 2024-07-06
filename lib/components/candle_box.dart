@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/widgets.dart';
-import 'package:night_break/components/sand.dart';
+// import 'package:night_break/components/sand.dart';
 import 'package:pocketbase/pocketbase.dart';
 
 import '../logic/candle_logic.dart';
@@ -13,8 +13,9 @@ import 'candle.dart';
  * - (DONE) build visible candle box container
  * - (DONE) fetch candles
  * - (DONE) subscribe to candles
- * -  populate candles in box container
- *    - give each candle a 'scale' parameter based on location within box
+ * -  (DONE) populate candles in box container
+ *    - (postponed) give each candle a 'scale' parameter based on location within box
+ * 
  * - add candles when collection is updated
  * - prevent add candle if user has an active candle already
  * 
@@ -68,6 +69,7 @@ class CandleBoxState extends State<CandleBox> {
       final candle = Candle(
         created: created,
         scale: 1.0,
+        owner: record.getStringValue('owner'),
       );
 
       return {
