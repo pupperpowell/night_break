@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:night_break/components/flame_shader_widget.dart';
 
@@ -11,40 +13,90 @@ class Candle extends StatefulWidget {
   CandleState createState() => CandleState();
 }
 
-class CandleState extends State<Candle> {
+class CandleState extends State<Candle> with SingleTickerProviderStateMixin {
+  late AnimationController _fadeController;
+  late Animation<double> _fadeAnimation;
+  late Timer _ageCheckTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    _fadeController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    );
+    _fadeAnimation =
+        Tween<double>(begin: 1.0, end: 0.0).animate(_fadeController);
+
+    _ageCheckTimer =
+        Timer.periodic(const Duration(seconds: 2), _checkCandleAge);
+  }
+
+  @override
+  void dispose() {
+    _fadeController.dispose();
+    _ageCheckTimer.cancel();
+    super.dispose();
+  }
+
+  void _checkCandleAge(Timer timer) {
+    final now = DateTime.now();
+    final candleAge = now.difference(widget.created);
+    setState(() {});
+    if (candleAge.inHours >= 5) {
+      debugPrint('fade out');
+      _fadeController.forward();
+      // _ageCheckTimer.cancel(); // Stop checking after the fade animation starts
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final now = DateTime.now();
     final elapsedTime = now.difference(widget.created);
-    final sixHours = Duration(hours: 6);
+    const sixHours = Duration(hours: 6);
     final progress =
         (elapsedTime.inMilliseconds / sixHours.inMilliseconds).clamp(0.0, 1.0);
 
-    final fullHeight = 175 * widget.scale;
+    // If the candle is older than 5 hours, don't render it
+    // if (elapsedTime.inHours >= 5) {
+    //   debugPrint('fade out this candle');
+    //   _fadeController.forward();
+    // }
+
+    // max height of the candle
+    final fullHeight = 185 * widget.scale;
+
+    // height of the candle (as a function of time)
     final currentHeight = fullHeight * (1 - progress * 0.75);
+    // ignore: unused_local_variable
     final topOffset = fullHeight - currentHeight;
 
-    return Column(
-      children: [
-        Stack(
-          alignment: Alignment.bottomCenter,
-          clipBehavior: Clip.none,
-          children: <Widget>[
-            CustomPaint(
-              size: Size(18 * widget.scale, fullHeight),
-              painter: CandlePainter(created: widget.created),
-            ),
-            Positioned(
-              bottom: currentHeight - (56 * widget.scale),
-              child: SizedBox(
-                width: 100 * widget.scale,
-                height: 38 * widget.scale,
-                child: const RepaintBoundary(child: FlameShaderWidget()),
+    return AnimatedOpacity(
+      opacity: _fadeAnimation.value,
+      duration: const Duration(seconds: 2),
+      child: Column(
+        children: [
+          Stack(
+            alignment: Alignment.bottomCenter,
+            clipBehavior: Clip.none,
+            children: <Widget>[
+              CustomPaint(
+                size: Size(18 * widget.scale, fullHeight),
+                painter: CandlePainter(created: widget.created),
               ),
-            ),
-          ],
-        ),
-      ],
+              Positioned(
+                bottom: currentHeight - (57 * widget.scale),
+                child: SizedBox(
+                  width: 100 * widget.scale,
+                  height: 38 * widget.scale,
+                  child: const RepaintBoundary(child: FlameShaderWidget()),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
@@ -67,7 +119,7 @@ class CandlePainter extends CustomPainter {
     final topOffset = size.height - currentHeight;
 
     final wickPaint = Paint()
-      ..shader = LinearGradient(
+      ..shader = const LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [

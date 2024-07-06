@@ -15,7 +15,7 @@ import 'candle.dart';
  * - (DONE) subscribe to candles
  * -  populate candles in box container
  *    - give each candle a 'scale' parameter based on location within box
- * - add candles when subscription is updated
+ * - add candles when collection is updated
  * - prevent add candle if user has an active candle already
  * 
  */
@@ -36,8 +36,7 @@ class CandleBoxState extends State<CandleBox> {
   void initState() {
     super.initState();
     _populateCandles();
-    debugPrint('current candles: ${candles.toString()}');
-    // _handleCandleUpdate();
+
     // how should the UI respond if the candles db is updated?
   }
 
@@ -45,18 +44,6 @@ class CandleBoxState extends State<CandleBox> {
   void dispose() {
     super.dispose();
   }
-
-  // void _handleCandleUpdate(RecordSubscriptionEvent event) {
-  //   setState(() {
-  //     if (event.action == 'create') {
-  //       candles.add();
-  //       // TODO: add a new candle to the box in real time
-  //     } else if (event.action == 'delete') {
-  //       candles.removeWhere((c) => c.id == event.record.id);
-  //       // TODO?? remove a candle from the box in real time???
-  //     }
-  //   });
-  // }
 
   void _populateCandles() {
     CandleLogic.fetchCandles().then((fetchedCandles) {
@@ -73,19 +60,32 @@ class CandleBoxState extends State<CandleBox> {
   }) {
     final random = Random(seed);
 
-    return candles.map((record) {
+    // Create a list of candle positions with their respective widgets
+    List<Map<String, dynamic>> candlePositions = candles.map((record) {
       final created = DateTime.parse(record.created);
-      final x = random.nextDouble() * boxSize.width / 1.5;
-      final y = random.nextDouble() * boxSize.height / 2;
+      final x = 20 + random.nextDouble() * (boxSize.width - 40);
+      final y = random.nextDouble() * boxSize.height / 4;
       final candle = Candle(
         created: created,
-        scale: 0.8 + (y / boxSize.height) * (0.2),
+        scale: 1.0,
       );
 
+      return {
+        'x': x,
+        'y': y,
+        'widget': candle,
+      };
+    }).toList();
+
+    // Sort the list based on y-position, from highest to lowest
+    candlePositions.sort((a, b) => a['y'].compareTo(b['y']));
+
+    // Create Positioned widgets from the sorted list
+    return candlePositions.map((candleData) {
       return Positioned(
-        left: x,
-        top: y,
-        child: candle,
+        left: candleData['x'],
+        top: candleData['y'],
+        child: candleData['widget'],
       );
     }).toList();
   }
@@ -94,24 +94,24 @@ class CandleBoxState extends State<CandleBox> {
   Widget build(BuildContext context) {
     debugPrint('got ${candles.length} candles');
 
-    const double candleBoxWidth = 300;
-    const double candleBoxHeight = 300;
+    double candleBoxWidth = MediaQuery.sizeOf(context).width;
+    const double candleBoxHeight = 700;
 
     return SizedBox(
       width: candleBoxWidth,
       height: candleBoxHeight,
       child: Stack(
         children: [
-          const Positioned.fill(
-            child: Sand(
-              baseColor: Color.fromARGB(255, 181, 161, 130),
-              secondaryColor: Color.fromARGB(255, 142, 122, 96),
-            ),
-          ),
+          // const Positioned.fill(
+          //   child: Sand(
+          //     baseColor: Color.fromARGB(255, 181, 161, 130),
+          //     secondaryColor: Color.fromARGB(255, 142, 122, 96),
+          //   ),
+          // ),
           ...positionCandlesRandomly(
             candles: candles,
-            boxSize: const Size(candleBoxWidth, candleBoxHeight),
-            seed: 0,
+            boxSize: Size(candleBoxWidth, candleBoxHeight),
+            seed: 5,
           ),
         ],
       ),
