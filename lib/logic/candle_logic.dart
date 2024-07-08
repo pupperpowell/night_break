@@ -15,13 +15,13 @@ class CandleLogic {
   // get candles from database
   static Future<List<RecordModel>> fetchCandles() async {
     final now = DateTime.now();
-    final sixHoursAgo = now.subtract(const Duration(hours: 6));
+    final fiveHoursAgo = now.subtract(const Duration(hours: 5));
 
     // fetch a paginated records list
     final resultList = await pb.collection('candles').getList(
           page: 1,
           perPage: 50,
-          filter: 'created >= "$sixHoursAgo"',
+          filter: 'created >= "$fiveHoursAgo"',
         );
 
     debugPrint('recent candles: ${resultList.items.length}');
@@ -39,8 +39,29 @@ class CandleLogic {
     return resultList.items.length;
   }
 
+  static Future<bool> hasRecentCandle(String RELATION_RECORD_ID) async {
+    final now = DateTime.now();
+    final fiveHoursAgo = now.subtract(const Duration(hours: 5));
+
+    final resultList = await pb.collection('candles').getList(
+          filter: 'owner = "$RELATION_RECORD_ID" && created >= "$fiveHoursAgo"',
+          sort: '-created',
+          page: 1,
+          perPage: 1,
+        );
+
+    return resultList.items.isNotEmpty;
+  }
+
   static Future<RecordModel?> createCandle(String RELATION_RECORD_ID) async {
+    bool hasRecent = await hasRecentCandle(RELATION_RECORD_ID);
+    if (hasRecent) {
+      debugPrint('User has already created a candle in the last 5 hours');
+      return null;
+    }
+
     final body = <String, dynamic>{"owner": RELATION_RECORD_ID};
+
     try {
       final candleAttempt = await pb.collection('candles').create(body: body);
       return candleAttempt;

@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/widgets.dart';
-// import 'package:night_break/components/sand.dart';
+import 'package:night_break/components/sand.dart';
 import 'package:pocketbase/pocketbase.dart';
 
 import '../logic/candle_logic.dart';
@@ -33,9 +33,13 @@ class CandleBox extends StatefulWidget {
 class CandleBoxState extends State<CandleBox> {
   static List<RecordModel> candles = [];
 
+  CandleLogic candleLogic = CandleLogic();
+
   @override
   void initState() {
     super.initState();
+    candleLogic.subscribeToCandleChanges();
+
     _populateCandles();
 
     // how should the UI respond if the candles db is updated?
@@ -43,6 +47,7 @@ class CandleBoxState extends State<CandleBox> {
 
   @override
   void dispose() {
+    candleLogic.unsubscribeFromCandleChanges();
     super.dispose();
   }
 
@@ -97,7 +102,7 @@ class CandleBoxState extends State<CandleBox> {
     debugPrint('got ${candles.length} candles');
 
     double candleBoxWidth = MediaQuery.sizeOf(context).width;
-    const double candleBoxHeight = 700;
+    const double candleBoxHeight = 450;
 
     return SizedBox(
       width: candleBoxWidth,
@@ -113,7 +118,7 @@ class CandleBoxState extends State<CandleBox> {
           ...positionCandlesRandomly(
             candles: candles,
             boxSize: Size(candleBoxWidth, candleBoxHeight),
-            seed: 5,
+            seed: 0,
           ),
         ],
       ),

@@ -16,18 +16,18 @@ class WelcomeButtons extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // debug login
+          // // debug login
 
-          CupertinoButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const Home()),
-              );
-            },
-            child: const Text('debug login'),
-          ),
-          const SizedBox(height: 16.0),
+          // CupertinoButton(
+          //   onPressed: () {
+          //     Navigator.push(
+          //       context,
+          //       MaterialPageRoute(builder: (context) => const Home()),
+          //     );
+          //   },
+          //   child: const Text('debug login'),
+          // ),
+          // const SizedBox(height: 16.0),
 
           // invite code
 

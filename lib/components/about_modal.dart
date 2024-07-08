@@ -18,24 +18,51 @@ class AboutModal extends StatelessWidget {
             const SizedBox(height: 20.0),
             RichText(
               text: TextSpan(
-                text:
-                    'Most apps are designed to be used by billions. But as it turns out, designing something for everybody is really designing something for... nobody. What features of Instagram, Facebook, or Snapchat really feel like they were designed specifically for',
-                style: Theme.of(context).textTheme.bodyLarge,
-                children: const <TextSpan>[
+                style: DefaultTextStyle.of(context).style,
+                children: <TextSpan>[
                   TextSpan(
-                    text: ' you?\n',
+                    text:
+                        '"In trying to build a service for everyone, it often feels like we\'re not focused on anyone in particular…"\n',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  const TextSpan(
+                    text: '—',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  const TextSpan(
+                    text: 'Mark Zuckerberg, on building Facebook',
                     style: TextStyle(fontStyle: FontStyle.italic),
+                  ),
+                  const TextSpan(text: '\n\n'),
+                  const TextSpan(
+                    text: 'Night Break',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  const TextSpan(
+                    text:
+                        ' is an app made specifically with the greater Metropolis of Boston Camp community in mind; staff, friends, relatives, parents, campers, clergy, friends of friends, and more.\n\n',
+                  ),
+                  const TextSpan(
+                    text:
+                        'I believe building for a community, instead of for \'everyone,\' has a huge impact on the design, engineering, and messaging of any product or service. Every feature of this app is tailor-made with you in mind.\n\n',
+                  ),
+                  const TextSpan(
+                    text:
+                        'It has been a gift to be able to build and handcraft this app for you, from conception to reality. Thank you for being my motivation and guiding light.\n\n',
+                  ),
+                  const TextSpan(
+                    text:
+                        'Looking for an invite code? Here\'s a hint– humility is not a pillar. (There are six other options.)\n\n',
+                  ),
+                  const TextSpan(
+                    text: 'Love,\n',
+                  ),
+                  TextSpan(
+                    text: 'George Powell',
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ],
               ),
-            ),
-            Text(
-              "When you design something for only a few people in mind, you can tailor it to the needs of your community in ways that popular apps never could. So that's Night Break. It's designed specifically for the staff community of the Metropolis of Boston Camp. Every feature is crafted with our camp community in mind. When you use it, you'll see what I mean.\n",
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-            Text(
-              "Looking for an invite code? Here's a hint: humility is not a pillar. That leaves you with six other options. I hope you enjoy this app!",
-              style: Theme.of(context).textTheme.bodyLarge,
             ),
             const SizedBox(height: 18.0),
           ],

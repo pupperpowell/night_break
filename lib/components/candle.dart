@@ -155,6 +155,22 @@ class CandlePainter extends CustomPainter {
         stops: [0.0, 0.2, 1.0],
       ).createShader(Rect.fromLTWH(0, topOffset, size.width, currentHeight));
 
+    // Draw white outline around candle if the logged in user matches the candle.owner
+    if (pb.authStore.model.id.toString() == owner) {
+      final ovalPaint = Paint()
+        ..color = Colors.grey
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 4;
+
+      final ovalRect = Rect.fromCenter(
+        center: Offset(
+            size.width / 2, size.height - 6), // At the bottom of the candle
+        width: size.width * 1.5,
+        height: size.width * 1.25,
+      );
+
+      canvas.drawOval(ovalRect, ovalPaint);
+    }
     // Draw wax
     canvas.drawRRect(
       RRect.fromRectAndRadius(
@@ -177,21 +193,6 @@ class CandlePainter extends CustomPainter {
     //   ..color = Colors.green
     //   ..style = PaintingStyle.fill;
     // canvas.drawRect(const Rect.fromLTWH(0, 0, 5, 5), greenBoxPaint);
-
-    // Draw white outline around candle if the logged in user matches the candle.owner
-    if (pb.authStore.model.id.toString() == owner) {
-      // final outlinePaint = Paint()
-      //   ..color = Colors.white
-      //   ..style = PaintingStyle.stroke
-      //   ..strokeWidth = 1;
-      // canvas.drawRRect(
-      //   RRect.fromRectAndRadius(
-      //     Rect.fromLTWH(0, topOffset, size.width, currentHeight),
-      //     const Radius.circular(15),
-      //   ),
-      //   outlinePaint,
-      // );
-    }
   }
 
   @override
