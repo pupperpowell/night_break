@@ -18,7 +18,7 @@ class HomePage extends StatelessWidget {
               const SizedBox(height: 16.0),
               const Padding(
                 padding: EdgeInsets.all(8.0),
-                child: Text('Welcome to Night Break v0.5'),
+                child: Text('Welcome to Night Break v0.6'),
               ),
               const Text("made with love by George Powell"),
               const SizedBox(height: 16.0),
