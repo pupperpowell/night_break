@@ -25,8 +25,6 @@ class CandleStandPageState extends State<CandleStandPage> {
   @override
   void initState() {
     super.initState();
-    candleLogic = locator<CandleLogic>();
-    candleLogic.subscribeToCandleChanges();
   }
 
   void _showTimeDialog(Widget child) {
@@ -52,7 +50,6 @@ class CandleStandPageState extends State<CandleStandPage> {
 
   @override
   void dispose() {
-    candleLogic.unsubscribeFromCandleChanges();
     super.dispose();
   }
 
