@@ -1,9 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:night_break/components/candle.dart';
-import 'package:pocketbase/pocketbase.dart';
-
-import '../logic/candle_logic.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -18,7 +14,7 @@ class HomePage extends StatelessWidget {
               const SizedBox(height: 16.0),
               const Padding(
                 padding: EdgeInsets.all(8.0),
-                child: Text('Welcome to Night Break v0.6'),
+                child: Text('Welcome to Night Break v0.8'),
               ),
               const Text("made with love by George Powell"),
               const SizedBox(height: 16.0),

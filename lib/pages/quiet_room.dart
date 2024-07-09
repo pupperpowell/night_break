@@ -1,6 +1,3 @@
-import 'dart:math';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:night_break/logic/stay_seated.dart';
 import 'package:night_break/pages/candle_stand.dart';

@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:night_break/components/auth_text_field.dart';
-import 'package:pocketbase/pocketbase.dart';
 
-import '../locator.dart';
 import 'auth.dart';
 
 class SignupForm extends StatefulWidget {
@@ -82,7 +80,6 @@ class _SignupFormState extends State<SignupForm> {
 
   @override
   Widget build(BuildContext context) {
-    final pb = locator<PocketBase>();
     final authService = AuthService();
 
     return SafeArea(

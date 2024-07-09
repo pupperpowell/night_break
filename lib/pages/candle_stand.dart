@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pocketbase/pocketbase.dart';
 
 import '../components/candle_stand_modal.dart';
-import '../locator.dart';
+
 import '../logic/candle_logic.dart';
 import 'quiet_room.dart';
 
@@ -19,6 +19,7 @@ class CandleStandPageState extends State<CandleStandPage> {
 
   int _minuteGoal = 1;
 
+  // are these needed in this class?
   late CandleLogic candleLogic;
   List<RecordModel> candles = [];
 
@@ -161,9 +162,6 @@ class CandleStandPageState extends State<CandleStandPage> {
                           isDefaultAction: true,
                           onPressed: () {
                             Navigator.of(context).pop();
-                            // CandleLogic.createCandle(
-                            //   pb.authStore.model.id.toString(),
-                            // );
                           },
                           child: const Text('okay'),
                         ),

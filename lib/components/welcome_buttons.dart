@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../main.dart';
 import 'about_modal.dart';
 import 'invite_code_modal.dart';
 import '../auth/login_modal.dart';

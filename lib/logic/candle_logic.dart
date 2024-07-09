@@ -9,8 +9,12 @@ class CandleLogic {
   List<RecordModel> candles = [];
   bool _isSubscribed = false;
 
-  // idk what this does
-  Function(RecordSubscriptionEvent)? onCandleUpdate;
+  RecordModel? Function(RecordSubscriptionEvent)? onCandleUpdate;
+
+  void setOnCandleUpdate(
+      RecordModel Function(RecordSubscriptionEvent) callback) {
+    onCandleUpdate = callback;
+  }
 
   // get candles from database
   static Future<List<RecordModel>> fetchCandles() async {
@@ -24,7 +28,7 @@ class CandleLogic {
           filter: 'created >= "$fiveHoursAgo"',
         );
 
-    debugPrint('recent candles: ${resultList.items.length}');
+    debugPrint('fetched recent candles: ${resultList.items.length}');
     return resultList.items;
   }
 
@@ -77,14 +81,12 @@ class CandleLogic {
   }
 
   void subscribeToCandleChanges() {
-    if (_isSubscribed) return;
+    if (_isSubscribed) return; //prevents double subscribing
     pb.collection('candles').subscribe('*', (RecordSubscriptionEvent event) {
-      debugPrint('Candle change: ${event.action}');
-      debugPrint('Updated candle: ${event.record}');
+      debugPrint('candle detected by CandleLogic.subscribeToCandleChanges');
 
-      if (onCandleUpdate != null) {
-        onCandleUpdate!(event);
-        debugPrint("new candle event detected");
+      if (event.action == 'create') {
+        onCandleUpdate?.call(event); // Use ?.call to safely call if not null
       }
     });
     debugPrint('subscribed to candle changes.');

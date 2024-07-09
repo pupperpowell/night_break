@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/widgets.dart';
-import 'package:night_break/components/sand.dart';
 import 'package:pocketbase/pocketbase.dart';
 
 import '../logic/candle_logic.dart';
@@ -16,8 +15,8 @@ import 'candle.dart';
  * -  (DONE) populate candles in box container
  *    - (postponed) give each candle a 'scale' parameter based on location within box
  * 
- * - add candles when collection is updated
- * - prevent add candle if user has an active candle already
+ * - (DONE) add candles when collection is updated
+ * - (DONE) prevent add candle if user has an active candle already
  * 
  */
 
@@ -32,17 +31,25 @@ class CandleBox extends StatefulWidget {
 
 class CandleBoxState extends State<CandleBox> {
   static List<RecordModel> candles = [];
+  Map<String, DateTime> candleAddTimes = {};
 
   CandleLogic candleLogic = CandleLogic();
 
   @override
   void initState() {
     super.initState();
+    candleLogic.onCandleUpdate = (event) {
+      if (event.record != null) {
+        setState(() {
+          candles.add(event.record!);
+          candleAddTimes[event.record!.id] = DateTime.now();
+        });
+      }
+      return event.record;
+    };
     candleLogic.subscribeToCandleChanges();
 
     _populateCandles();
-
-    // how should the UI respond if the candles db is updated?
   }
 
   @override
@@ -51,6 +58,7 @@ class CandleBoxState extends State<CandleBox> {
     super.dispose();
   }
 
+  // fill up the list of candles this widget holds
   void _populateCandles() {
     CandleLogic.fetchCandles().then((fetchedCandles) {
       setState(() {
@@ -64,6 +72,7 @@ class CandleBoxState extends State<CandleBox> {
     required Size boxSize,
     required int seed,
   }) {
+    debugPrint('drawing candles to screen');
     final random = Random(seed);
 
     // Create a list of candle positions with their respective widgets
@@ -71,10 +80,13 @@ class CandleBoxState extends State<CandleBox> {
       final created = DateTime.parse(record.created);
       final x = 20 + random.nextDouble() * (boxSize.width - 40);
       final y = random.nextDouble() * boxSize.height / 4;
+      final addTime = candleAddTimes[record.id] ?? DateTime.now();
       final candle = Candle(
+        key: ValueKey(record.id),
         created: created,
         scale: 1.0,
         owner: record.getStringValue('owner'),
+        fadeIn: DateTime.now().difference(addTime).inSeconds < 5,
       );
 
       return {
@@ -109,12 +121,6 @@ class CandleBoxState extends State<CandleBox> {
       height: candleBoxHeight,
       child: Stack(
         children: [
-          // const Positioned.fill(
-          //   child: Sand(
-          //     baseColor: Color.fromARGB(255, 181, 161, 130),
-          //     secondaryColor: Color.fromARGB(255, 142, 122, 96),
-          //   ),
-          // ),
           ...positionCandlesRandomly(
             candles: candles,
             boxSize: Size(candleBoxWidth, candleBoxHeight),

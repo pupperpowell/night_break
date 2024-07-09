@@ -3,40 +3,56 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:night_break/components/flame_shader_widget.dart';
 
-import 'package:pocketbase/pocketbase.dart';
-
-import '../locator.dart';
 import '../logic/candle_logic.dart';
 
 class Candle extends StatefulWidget {
   final DateTime created;
   final double scale;
   final String owner;
+  final bool fadeIn;
 
-  const Candle(
-      {super.key,
-      required this.created,
-      required this.scale,
-      required this.owner});
+  const Candle({
+    super.key,
+    required this.created,
+    required this.scale,
+    required this.owner,
+    this.fadeIn = false,
+  });
 
   @override
   CandleState createState() => CandleState();
 }
 
-class CandleState extends State<Candle> with SingleTickerProviderStateMixin {
-  late AnimationController _fadeController;
-  late Animation<double> _fadeAnimation;
+class CandleState extends State<Candle> with TickerProviderStateMixin {
+  late AnimationController _fadeInController;
+  late Animation<double> _fadeInAnimation;
+
+  late AnimationController _fadeOutController;
+  late Animation<double> _fadeOutAnimation;
   late Timer _ageCheckTimer;
 
   @override
   void initState() {
     super.initState();
-    _fadeController = AnimationController(
+    _fadeOutController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 2),
     );
-    _fadeAnimation =
-        Tween<double>(begin: 1.0, end: 0.0).animate(_fadeController);
+    _fadeOutAnimation =
+        Tween<double>(begin: 1.0, end: 0.0).animate(_fadeOutController);
+
+    _fadeInController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    );
+    _fadeInAnimation =
+        Tween<double>(begin: 0.0, end: 1.0).animate(_fadeInController);
+
+    if (widget.fadeIn) {
+      _fadeInController.forward();
+    } else {
+      _fadeInController.value = 1.0;
+    }
 
     _ageCheckTimer =
         Timer.periodic(const Duration(seconds: 2), _checkCandleAge);
@@ -44,7 +60,8 @@ class CandleState extends State<Candle> with SingleTickerProviderStateMixin {
 
   @override
   void dispose() {
-    _fadeController.dispose();
+    _fadeOutController.dispose();
+    _fadeInController.dispose();
     _ageCheckTimer.cancel();
     super.dispose();
   }
@@ -55,8 +72,7 @@ class CandleState extends State<Candle> with SingleTickerProviderStateMixin {
     setState(() {});
     if (candleAge.inHours >= 5) {
       debugPrint('fade out');
-      _fadeController.forward();
-      // _ageCheckTimer.cancel(); // Stop checking after the fade animation starts
+      _fadeOutController.forward();
     }
   }
 
@@ -68,12 +84,6 @@ class CandleState extends State<Candle> with SingleTickerProviderStateMixin {
     final progress =
         (elapsedTime.inMilliseconds / sixHours.inMilliseconds).clamp(0.0, 1.0);
 
-    // If the candle is older than 5 hours, don't render it
-    // if (elapsedTime.inHours >= 5) {
-    //   debugPrint('fade out this candle');
-    //   _fadeController.forward();
-    // }
-
     // max height of the candle
     final fullHeight = 185 * widget.scale;
 
@@ -82,33 +92,37 @@ class CandleState extends State<Candle> with SingleTickerProviderStateMixin {
     // ignore: unused_local_variable
     final topOffset = fullHeight - currentHeight;
 
-    return AnimatedOpacity(
-      opacity: _fadeAnimation.value,
-      duration: const Duration(seconds: 2),
-      child: Column(
-        children: [
-          Stack(
-            alignment: Alignment.bottomCenter,
-            clipBehavior: Clip.none,
-            children: <Widget>[
-              CustomPaint(
-                size: Size(18 * widget.scale, fullHeight),
-                painter:
-                    CandlePainter(created: widget.created, owner: widget.owner),
-              ),
-              Positioned(
-                bottom: currentHeight - (57 * widget.scale),
-                child: SizedBox(
-                  width: 100 * widget.scale,
-                  height: 38 * widget.scale,
-                  child: const RepaintBoundary(child: FlameShaderWidget()),
+    return AnimatedBuilder(
+        animation: Listenable.merge([_fadeOutAnimation, _fadeInAnimation]),
+        builder: (context, child) {
+          return Opacity(
+            opacity: _fadeOutAnimation.value * _fadeInAnimation.value,
+            child: Column(
+              children: [
+                Stack(
+                  alignment: Alignment.bottomCenter,
+                  clipBehavior: Clip.none,
+                  children: <Widget>[
+                    CustomPaint(
+                      size: Size(18 * widget.scale, fullHeight),
+                      painter: CandlePainter(
+                          created: widget.created, owner: widget.owner),
+                    ),
+                    Positioned(
+                      bottom: currentHeight - (57 * widget.scale),
+                      child: SizedBox(
+                        width: 100 * widget.scale,
+                        height: 38 * widget.scale,
+                        child:
+                            const RepaintBoundary(child: FlameShaderWidget()),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+              ],
+            ),
+          );
+        });
   }
 }
 
@@ -158,8 +172,8 @@ class CandlePainter extends CustomPainter {
     // Draw white outline around candle if the logged in user matches the candle.owner
     if (pb.authStore.model.id.toString() == owner) {
       final ovalPaint = Paint()
-        ..color = Colors.grey
-        ..style = PaintingStyle.stroke
+        ..color = Colors.grey.shade700
+        ..style = PaintingStyle.fill
         ..strokeWidth = 4;
 
       final ovalRect = Rect.fromCenter(
