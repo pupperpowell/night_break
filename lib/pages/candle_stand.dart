@@ -147,13 +147,14 @@ class CandleStandPageState extends State<CandleStandPage> {
                         padding: EdgeInsets.all(6.0),
                         child: Column(
                           children: [
-                            Text(
-                                'Important: feel free to put your phone down, but please leave this app open or else it won\'t work!'),
                             SizedBox(height: 6.0),
+                            Text('feel free to put your phone down.'),
+                            SizedBox(height: 12.0),
                             Text(
                                 'a sound will play when your time is up, and every minute after that.'),
                             SizedBox(height: 6.0),
-                            Text("enjoy :)"),
+                            Text(
+                                "if you leave early, a candle won't be lit..."),
                           ],
                         ),
                       ),

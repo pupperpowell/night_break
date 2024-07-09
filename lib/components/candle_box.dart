@@ -124,7 +124,7 @@ class CandleBoxState extends State<CandleBox> {
           ...positionCandlesRandomly(
             candles: candles,
             boxSize: Size(candleBoxWidth, candleBoxHeight),
-            seed: 0,
+            seed: DateTime.now().month * 31 + DateTime.now().day,
           ),
         ],
       ),

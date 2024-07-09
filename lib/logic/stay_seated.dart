@@ -5,8 +5,12 @@ import 'package:flutter/material.dart';
 import 'candle_logic.dart';
 
 /* 
- * This class is used to track the time the app was in the foreground.
- * When the user navigates away from the app, the quiet room is closed.
+ * This class was used to track the time the app was in the foreground.
+ * Now, it is a catch-all for:
+ * - Updating the "you've been here for X minutes" text
+ * - Updating the 'leave / leave early' button
+ * - Closing the quiet room when the user navigates away from the app
+ * - Playing sounds at start, at goal reached, and every minute afterwards
  */
 
 class StaySeated extends StatefulWidget {
