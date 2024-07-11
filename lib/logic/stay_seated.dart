@@ -1,16 +1,13 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 import 'candle_logic.dart';
 
 /* 
- * This class was used to track the time the app was in the foreground.
- * Now, it is a catch-all for:
+ * This class is used to track the time the app was in the foreground.
+
  * - Updating the "you've been here for X minutes" text
- * - Updating the 'leave / leave early' button
  * - Closing the quiet room when the user navigates away from the app
- * - Playing sounds at start, at goal reached, and every minute afterwards
  */
 
 class StaySeated extends StatefulWidget {
@@ -76,8 +73,6 @@ class StaySeatedState extends State<StaySeated> with WidgetsBindingObserver {
             !_candleLit) {
           _lightCandle();
         }
-        // TODO: play bell at minuteGoal
-        // TODO: play censer bells at start, and every minute after goal
       });
     });
   }

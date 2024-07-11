@@ -1,4 +1,6 @@
 PODS:
+  - audioplayers_darwin (0.0.1):
+    - Flutter
   - Flutter (1.0.0)
   - flutter_secure_storage (6.0.0):
     - Flutter
@@ -7,11 +9,14 @@ PODS:
     - FlutterMacOS
 
 DEPENDENCIES:
+  - audioplayers_darwin (from `.symlinks/plugins/audioplayers_darwin/ios`)
   - Flutter (from `Flutter`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
 
 EXTERNAL SOURCES:
+  audioplayers_darwin:
+    :path: ".symlinks/plugins/audioplayers_darwin/ios"
   Flutter:
     :path: Flutter
   flutter_secure_storage:
@@ -20,6 +25,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
 
 SPEC CHECKSUMS:
+  audioplayers_darwin: 877d9a4d06331c5c374595e46e16453ac7eafa40
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_secure_storage: d33dac7ae2ea08509be337e775f6b59f1ff45f12
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46

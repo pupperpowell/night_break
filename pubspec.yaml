@@ -19,6 +19,7 @@ dependencies:
   flutter_secure_storage: ^9.0.0
   material_symbols_icons: ^4.2762.0
   flutter_shaders: ^0.1.2
+  audioplayers: ^6.0.0
 
 assets:
   - assets/fonts/
@@ -35,3 +36,6 @@ flutter:
   shaders:
     - assets/shaders/flame_shader.frag
     - assets/shaders/sand.frag
+
+  assets:
+    - assets/audio/
