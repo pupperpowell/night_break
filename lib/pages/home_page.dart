@@ -11,39 +11,53 @@ class HomePage extends StatelessWidget {
         child: Center(
           child: Column(
             children: [
-              const SizedBox(height: 16.0),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text('Welcome to Night Break v0.8'),
+              const SizedBox(height: 32.0),
+              const Text(
+                'Welcome to Night Break v0.9\nmade with love by George Powell',
+                textAlign: TextAlign.center,
               ),
-              const Text("made with love by George Powell"),
               const SizedBox(height: 16.0),
-              Row(
-                children: [
-                  const SizedBox(width: 16.0),
-                  Candle(created: DateTime.now(), scale: 1.0, owner: "uhmm"),
-                  const SizedBox(width: 16.0),
-
-                  const SizedBox(width: 16.0),
-                  // Candle(
-                  //     created: DateTime.now(),
-                  //     scale: 1.0,
-                  //     owner: "ozbp403k8oppkw4"),
-                  const SizedBox(width: 16.0),
-                ],
-              ),
-              const SizedBox(width: 64.0),
-              // CupertinoButton(
-              //   onPressed: () async {
-              //     List<RecordModel> candles = await CandleLogic.fetchCandles();
-              //     debugPrint('candle list: $candles');
-              //   },
-              //   child: const Text('see global candles'),
-              // ),
+              Candle(created: DateTime.now(), scale: 1.0, owner: "nobody"),
+              const SizedBox(height: 32.0),
+              const Text('This app is still in development.'),
+              const ListItem(checked: true, text: 'candle stand'),
+              const ListItem(checked: false, text: 'profile'),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class ListItem extends StatefulWidget {
+  final bool checked;
+  final String text;
+
+  const ListItem({super.key, required this.checked, required this.text});
+
+  @override
+  State<ListItem> createState() => _ListItemState();
+}
+
+class _ListItemState extends State<ListItem> {
+  bool isChecked = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Checkbox(
+          checkColor: Colors.white,
+          value: isChecked,
+          onChanged: (bool? value) {
+            setState(() {
+              isChecked = value!;
+            });
+          },
+        ),
+        Text(widget.text, style: Theme.of(context).textTheme.bodyLarge),
+      ],
     );
   }
 }

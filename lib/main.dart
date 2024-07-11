@@ -4,11 +4,11 @@ import 'package:material_symbols_icons/symbols.dart';
 import 'package:night_break/auth/auth.dart';
 import 'package:night_break/locator.dart';
 import 'package:night_break/logic/candle_logic.dart';
+import 'package:night_break/pages/profile_page.dart';
 import 'package:night_break/theme/dark_theme.dart';
 
 import 'pages/candle_stand.dart';
 import 'pages/home_page.dart';
-import 'pages/settings_page.dart';
 
 Future<void> main() async {
   await setup();
@@ -67,7 +67,7 @@ class _HomeState extends State<Home> {
             label: 'Candle Stand',
           ),
           NavigationDestination(
-            icon: Icon(Symbols.settings),
+            icon: Icon(Symbols.taunt),
             label: 'Settings',
           ),
         ],
@@ -77,7 +77,7 @@ class _HomeState extends State<Home> {
       body: <Widget>[
         const HomePage(),
         const CandleStandPage(),
-        const SettingsPage(),
+        const ProfilePage(),
       ].elementAt(_currentPageIndex),
     );
   }
