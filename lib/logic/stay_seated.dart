@@ -59,7 +59,7 @@ class StaySeatedState extends State<StaySeated> with WidgetsBindingObserver {
   }
 
   void _startTracking() {
-    _startTime = DateTime.now();
+    _startTime = DateTime.now().toUtc();
   }
 
   void _stopTracking() {

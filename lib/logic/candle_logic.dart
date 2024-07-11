@@ -18,7 +18,7 @@ class CandleLogic {
 
   // get candles from database
   static Future<List<RecordModel>> fetchCandles() async {
-    final now = DateTime.now();
+    final now = DateTime.now().toUtc();
     final fiveHoursAgo = now.subtract(const Duration(hours: 5));
 
     // fetch a paginated records list
@@ -44,7 +44,7 @@ class CandleLogic {
   }
 
   static Future<bool> hasRecentCandle(String RELATION_RECORD_ID) async {
-    final now = DateTime.now();
+    final now = DateTime.now().toUtc();
     final fiveHoursAgo = now.subtract(const Duration(hours: 5));
 
     final resultList = await pb.collection('candles').getList(

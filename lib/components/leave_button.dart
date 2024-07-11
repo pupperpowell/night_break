@@ -45,7 +45,7 @@ class LeaveButtonState extends State<LeaveButton> with WidgetsBindingObserver {
   }
 
   void _startTracking() {
-    _startTime = DateTime.now();
+    _startTime = DateTime.now().toUtc();
   }
 
   void _stopTracking() {

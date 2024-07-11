@@ -23,12 +23,12 @@ class HomePage extends StatelessWidget {
                   const SizedBox(width: 16.0),
                   Candle(created: DateTime.now(), scale: 1.0, owner: "uhmm"),
                   const SizedBox(width: 16.0),
-                  Candle(created: DateTime.now(), scale: 1.0, owner: "uhmm"),
+
                   const SizedBox(width: 16.0),
-                  Candle(
-                      created: DateTime.now(),
-                      scale: 1.0,
-                      owner: "ozbp403k8oppkw4"),
+                  // Candle(
+                  //     created: DateTime.now(),
+                  //     scale: 1.0,
+                  //     owner: "ozbp403k8oppkw4"),
                   const SizedBox(width: 16.0),
                 ],
               ),

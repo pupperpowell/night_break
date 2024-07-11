@@ -7,7 +7,6 @@ import '../logic/candle_logic.dart';
 import 'candle.dart';
 
 /*
- * TODO:
  * 
  * - (DONE) build visible candle box container
  * - (DONE) fetch candles
@@ -42,7 +41,7 @@ class CandleBoxState extends State<CandleBox> {
       if (event.record != null) {
         setState(() {
           candles.add(event.record!);
-          candleAddTimes[event.record!.id] = DateTime.now();
+          candleAddTimes[event.record!.id] = DateTime.now().toUtc();
         });
       }
       return event.record;
@@ -80,7 +79,7 @@ class CandleBoxState extends State<CandleBox> {
       final created = DateTime.parse(record.created);
       final x = 20 + random.nextDouble() * (boxSize.width - 40);
       final y = random.nextDouble() * boxSize.height / 4;
-      final addTime = candleAddTimes[record.id] ?? DateTime.now();
+      final addTime = candleAddTimes[record.id] ?? DateTime.now().toUtc();
       final candle = Candle(
         key: ValueKey(record.id),
         created: created,

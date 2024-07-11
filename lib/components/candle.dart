@@ -31,6 +31,10 @@ class CandleState extends State<Candle> with TickerProviderStateMixin {
   late Animation<double> _fadeOutAnimation;
   late Timer _ageCheckTimer;
 
+  // ignore: non_constant_identifier_names
+  // turns off timer after candle gets too old
+  bool _ok_boomer = false;
+
   @override
   void initState() {
     super.initState();
@@ -67,18 +71,26 @@ class CandleState extends State<Candle> with TickerProviderStateMixin {
   }
 
   void _checkCandleAge(Timer timer) {
-    final now = DateTime.now();
+    if (_ok_boomer) {
+      timer.cancel();
+      return;
+    }
+    final now = DateTime.now().toUtc();
     final candleAge = now.difference(widget.created);
     setState(() {});
     if (candleAge.inHours >= 5) {
       debugPrint('fade out');
       _fadeOutController.forward();
+      setState(() {
+        _ok_boomer = true;
+      });
+      timer.cancel();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final now = DateTime.now();
+    final now = DateTime.now().toUtc();
     final elapsedTime = now.difference(widget.created);
     const sixHours = Duration(hours: 6);
     final progress =
@@ -91,6 +103,10 @@ class CandleState extends State<Candle> with TickerProviderStateMixin {
     final currentHeight = fullHeight * (1 - progress * 0.75);
     // ignore: unused_local_variable
     final topOffset = fullHeight - currentHeight;
+
+    if (elapsedTime.inMinutes > 300) {
+      return Container(); // Return an empty container if the candle is too old
+    }
 
     return AnimatedBuilder(
         animation: Listenable.merge([_fadeOutAnimation, _fadeInAnimation]),
@@ -134,7 +150,7 @@ class CandlePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final now = DateTime.now();
+    final now = DateTime.now().toUtc();
     final elapsedTime = now.difference(created);
     const sixHours = Duration(hours: 6);
     final progress =
