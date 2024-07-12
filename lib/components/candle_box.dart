@@ -32,11 +32,15 @@ class CandleBoxState extends State<CandleBox> {
   static List<RecordModel> candles = [];
   Map<String, DateTime> candleAddTimes = {};
 
+  int activeUsers = 0; // TODO: This is not updating in UI
+
   CandleLogic candleLogic = CandleLogic();
 
   @override
   void initState() {
     super.initState();
+
+    // add a candle to the list if the user creates one
     candleLogic.onCandleUpdate = (event) {
       if (event.record != null) {
         setState(() {
@@ -47,14 +51,44 @@ class CandleBoxState extends State<CandleBox> {
       return event.record;
     };
     candleLogic.subscribeToCandleChanges();
-
+    _subscribeToActiveUsers(); // not running?
     _populateCandles();
   }
 
   @override
   void dispose() {
     candleLogic.unsubscribeFromCandleChanges();
+    _unsubscribeFromActiveUsers();
     super.dispose();
+  }
+
+  // TODO: This is not running on init
+  void _subscribeToActiveUsers() {
+    pb.collection('active_users').subscribe('*', (e) {
+      if (e.record != null) {
+        setState(() {
+          activeUsers = e.record!.getIntValue('in_quiet_room');
+        });
+        debugPrint('found $activeUsers people');
+        _incrementActiveUsers();
+      }
+    });
+  }
+
+  void _unsubscribeFromActiveUsers() {
+    pb.collection('active_users').unsubscribe();
+  }
+
+  Future<void> _incrementActiveUsers() async {
+    try {
+      final record = await pb.collection('active_users').getFirstListItem('');
+      await pb.collection('active_users').update(record.id, body: {
+        'in_quiet_room': record.getIntValue('in_quiet_room') + 1,
+      });
+      debugPrint('incremented to ${record.getIntValue('in_quiet_room') + 1}');
+    } catch (e) {
+      debugPrint('Error incrementing active users: $e');
+    }
   }
 
   // fill up the list of candles this widget holds
@@ -115,18 +149,24 @@ class CandleBoxState extends State<CandleBox> {
     double candleBoxWidth = MediaQuery.sizeOf(context).width;
     const double candleBoxHeight = 450;
 
-    return SizedBox(
-      width: candleBoxWidth,
-      height: candleBoxHeight,
-      child: Stack(
-        children: [
-          ...positionCandlesRandomly(
-            candles: candles,
-            boxSize: Size(candleBoxWidth, candleBoxHeight),
-            seed: DateTime.now().month * 31 + DateTime.now().day,
+    return Column(
+      children: [
+        Text('$activeUsers here now'), // TODO: set to normal theme
+        const SizedBox(height: 72.0),
+        SizedBox(
+          width: candleBoxWidth,
+          height: candleBoxHeight,
+          child: Stack(
+            children: [
+              ...positionCandlesRandomly(
+                candles: candles,
+                boxSize: Size(candleBoxWidth, candleBoxHeight),
+                seed: DateTime.now().month * 31 + DateTime.now().day,
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
