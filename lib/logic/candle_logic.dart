@@ -24,15 +24,15 @@ class CandleLogic {
     // fetch a paginated records list
     final resultList = await pb.collection('candles').getList(
           page: 1,
-          perPage: 50,
+          perPage: 100,
           filter: 'created >= "$fiveHoursAgo"',
         );
 
-    debugPrint('fetched recent candles: ${resultList.items.length}');
+    debugPrint('fetched ${resultList.items.length} recent candles');
     return resultList.items;
   }
 
-  // get global candles
+  // get all candles across history
   List<RecordModel> getCandles() {
     return candles;
   }

@@ -27,10 +27,11 @@ class HomePage extends StatelessWidget {
                 const SizedBox(height: 16.0),
                 const ListItem(checked: true, text: 'candle stand'),
                 const ListItem(
-                    checked: false, text: 'anonymous prayer requests'),
-                const ListItem(checked: false, text: 'daily readings'),
+                    checked: false,
+                    text: 'prayer page with daily readings & saints'),
                 const ListItem(
-                    checked: false, text: 'synaxarion (saints of the day)'),
+                    checked: false, text: 'anonymous prayer requests'),
+                const ListItem(checked: false, text: 'a secret candle feature'),
                 const SizedBox(height: 16.0),
                 const Text(
                   'After that, features will be added based on suggestions from the community.',
@@ -72,7 +73,6 @@ class _ListItemState extends State<ListItem> {
       height: 28.0,
       child: Row(
         children: [
-          const SizedBox(width: 16.0),
           Checkbox(
             checkColor: Colors.white,
             value: isChecked,

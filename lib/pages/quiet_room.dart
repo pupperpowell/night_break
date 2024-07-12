@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:night_break/logic/here_together.dart';
 import 'package:night_break/logic/stay_seated.dart';
 
 import '../components/audio_button.dart';
 import '../components/candle_box.dart';
 import '../components/leave_button.dart';
+import '../logic/candle_logic.dart';
 
 class QuietRoom extends StatelessWidget {
   final int minuteGoal;
@@ -25,6 +27,7 @@ class QuietRoom extends StatelessWidget {
                   Navigator.of(context).pop;
                 },
               ),
+              const HereTogether(),
               const Spacer(),
               const CandleBox(),
               const Spacer(),

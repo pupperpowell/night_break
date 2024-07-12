@@ -24,6 +24,10 @@ ThemeData nightBreakDarkTheme = ThemeData(
     bodyLarge: TextStyle(
       color: Colors.grey.shade400,
     ),
+    bodyMedium: TextStyle(
+      color: Colors.grey.shade400,
+      fontSize: 14.0,
+    ),
     labelMedium: TextStyle(
       color: Colors.grey.shade400,
       fontWeight: FontWeight.w300,

@@ -1,6 +1,7 @@
+import 'dart:io';
 import 'dart:math';
 
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:pocketbase/pocketbase.dart';
 
 import '../logic/candle_logic.dart';
@@ -36,6 +37,8 @@ class CandleBoxState extends State<CandleBox> {
 
   CandleLogic candleLogic = CandleLogic();
 
+  bool _isSubscribedToActiveUsers = false;
+
   @override
   void initState() {
     super.initState();
@@ -51,34 +54,40 @@ class CandleBoxState extends State<CandleBox> {
       return event.record;
     };
     candleLogic.subscribeToCandleChanges();
-    _subscribeToActiveUsers(); // not running?
+    // _subscribeToActiveUsers();
     _populateCandles();
   }
 
   @override
   void dispose() {
     candleLogic.unsubscribeFromCandleChanges();
-    _unsubscribeFromActiveUsers();
+    // _unsubscribeFromActiveUsers();
     super.dispose();
   }
 
-  // TODO: This is not running on init
+  // TODO: move to here_together.dart
   void _subscribeToActiveUsers() {
+    if (_isSubscribedToActiveUsers) return; // prevent double subscribing
     pb.collection('active_users').subscribe('*', (e) {
       if (e.record != null) {
         setState(() {
           activeUsers = e.record!.getIntValue('in_quiet_room');
         });
-        debugPrint('found $activeUsers people');
-        _incrementActiveUsers();
       }
     });
+    _isSubscribedToActiveUsers = true;
+
+    _incrementActiveUsers();
   }
 
+  // TODO: move to here_together.dart
   void _unsubscribeFromActiveUsers() {
+    _decrementActiveUsers();
     pb.collection('active_users').unsubscribe();
+    _isSubscribedToActiveUsers = false;
   }
 
+  // TODO: move to here_together.dart
   Future<void> _incrementActiveUsers() async {
     try {
       final record = await pb.collection('active_users').getFirstListItem('');
@@ -88,6 +97,19 @@ class CandleBoxState extends State<CandleBox> {
       debugPrint('incremented to ${record.getIntValue('in_quiet_room') + 1}');
     } catch (e) {
       debugPrint('Error incrementing active users: $e');
+    }
+  }
+
+  // TODO: move to here_together.dart
+  Future<void> _decrementActiveUsers() async {
+    try {
+      final record = await pb.collection('active_users').getFirstListItem('');
+      await pb.collection('active_users').update(record.id, body: {
+        'in_quiet_room': record.getIntValue('in_quiet_room') - 1,
+      });
+      debugPrint('decremented to ${record.getIntValue('in_quiet_room') - 1}');
+    } catch (e) {
+      debugPrint('Error decrementing active users: $e');
     }
   }
 
@@ -151,8 +173,9 @@ class CandleBoxState extends State<CandleBox> {
 
     return Column(
       children: [
-        Text('$activeUsers here now'), // TODO: set to normal theme
-        const SizedBox(height: 72.0),
+        // Text('$activeUsers here now',
+        //     style: Theme.of(context).textTheme.bodyMedium),
+        // const SizedBox(height: 72.0),
         SizedBox(
           width: candleBoxWidth,
           height: candleBoxHeight,
