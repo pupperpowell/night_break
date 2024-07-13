@@ -36,6 +36,7 @@ class LeaveButtonState extends State<LeaveButton> with WidgetsBindingObserver {
       _stopTracking();
       _stopTimer();
       debugPrint("timer stopped");
+      Navigator.of(context).pop();
     } else if (state == AppLifecycleState.resumed) {
       _startTracking();
       _startTimer();

@@ -96,8 +96,13 @@ class CandleLogic {
   void unsubscribeFromCandleChanges() {
     if (!_isSubscribed) return;
 
-    pb.collection('candles').unsubscribe();
-    debugPrint("no longer subscribed");
-    _isSubscribed = false;
+    try {
+      pb.collection('candles').unsubscribe();
+      debugPrint("Successfully unsubscribed from candle changes");
+    } catch (e) {
+      debugPrint("Error unsubscribing from candle changes: $e");
+    } finally {
+      _isSubscribed = false;
+    }
   }
 }

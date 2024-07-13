@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'candle_logic.dart';
@@ -12,9 +14,7 @@ class HereTogether extends StatefulWidget {
    * - if it does, updates the record... somehow
    * 
    * Then the client gets the total number of records updated within the past 3 minutes
-   * And updates its own record every 3 minutes
-   * 
-   * TODO: set a timer to increment user record every 3 minutes
+   * And updates its own record every minute
    * 
    */
 
@@ -27,6 +27,8 @@ class HereTogether extends StatefulWidget {
 }
 
 class HereTogetherState extends State<HereTogether> {
+  Timer? _timer;
+
   int _recentUsers = 0;
   int _activeUsers = 1;
 
@@ -35,23 +37,66 @@ class HereTogetherState extends State<HereTogether> {
   @override
   void initState() {
     super.initState();
-    _getRecentUsers(); // candles.length
-    subscribeToActiveUsers(); //
     markAsActive();
+    _getRecentUsers();
+    subscribeToActiveUsers();
+
     _getActiveUsers();
+    _startTimer();
   }
 
   @override
   void dispose() {
-    _unsubscribeFromActiveUsers();
+    _stopTimer();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future<void> unsubscribe() async {
+        if (_isSubscribedToActiveUsers) {
+          try {
+            await pb.collection('active_users').unsubscribe();
+            debugPrint("Successfully unsubscribed from active users");
+          } catch (e) {
+            debugPrint("Error unsubscribing from active users: $e");
+          } finally {
+            _isSubscribedToActiveUsers = false;
+          }
+        }
+      }
+
+      Future.wait([
+        unsubscribe().timeout(
+          const Duration(seconds: 5),
+          onTimeout: () {
+            debugPrint("Unsubscribe timed out, forcing completion");
+            _isSubscribedToActiveUsers = false;
+          },
+        ),
+      ]);
+    });
+
     super.dispose();
+  }
+
+  void _startTimer() {
+    // Timer that fires every minute
+    _timer = Timer.periodic(const Duration(minutes: 1), (timer) {
+      markAsActive();
+      _getRecentUsers();
+    });
+  }
+
+  void _stopTimer() {
+    _timer?.cancel();
   }
 
   Future<void> subscribeToActiveUsers() async {
     if (_isSubscribedToActiveUsers) return;
     pb.collection('active_users').subscribe('*', (e) {
-      // if any creation or update is made to the active_users collection
-      // uhhhh update the state or something, i'm on the phone.
+      if (e.action == 'create' || e.action == 'update') {
+        setState(() {
+          _getActiveUsers();
+        });
+      }
     });
     _isSubscribedToActiveUsers = true;
   }
@@ -83,38 +128,53 @@ class HereTogetherState extends State<HereTogether> {
   }
 
   Future<void> _getActiveUsers() async {
-    // get all records updated within 3 minutes
+    // get all records updated within 1 minute
     // and count them
 
     final now = DateTime.now().toUtc();
-    final threeMinutesAgo = now.subtract(const Duration(minutes: 3));
+    final oneMinuteAgo = now.subtract(const Duration(minutes: 1));
 
     final activeUsers = await pb.collection('active_users').getList(
           page: 1,
           perPage: 50,
-          filter: 'updated >= "$threeMinutesAgo"',
+          filter: 'updated >= "$oneMinuteAgo"',
         );
     setState(() {
       _activeUsers = activeUsers.items.length;
+      debugPrint('found $_activeUsers recent records');
     });
   }
 
   Future<void> _getRecentUsers() async {
-    CandleLogic.fetchCandles().then((fetchedCandles) {
-      setState(() {
-        _recentUsers = fetchedCandles.length;
-      });
+    final now = DateTime.now().toUtc();
+    final oneMinuteAgo = now.subtract(const Duration(minutes: 1));
+    final fiveHoursAgo = now.subtract(const Duration(hours: 5));
+
+    final recentUsers = await pb.collection('active_users').getList(
+          page: 1,
+          perPage: 500,
+          filter: 'updated >= "$fiveHoursAgo" && updated < "$oneMinuteAgo"',
+        );
+
+    setState(() {
+      _recentUsers = recentUsers.items.length;
     });
   }
 
   void _unsubscribeFromActiveUsers() {
-    pb.collection('active_users').unsubscribe();
-    _isSubscribedToActiveUsers = false;
+    try {
+      if (_isSubscribedToActiveUsers) {
+        pb.collection('active_users').unsubscribe();
+        _isSubscribedToActiveUsers = false;
+      }
+    } catch (e) {
+      debugPrint('Error unsubscribing from active users: $e');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Text('$_activeUsers here now | $_recentUsers here recently',
+    return Text('$_activeUsers here now  |  $_recentUsers here recently',
         style: Theme.of(context).textTheme.bodyMedium);
   }
 }

@@ -5,7 +5,6 @@ import 'package:night_break/logic/stay_seated.dart';
 import '../components/audio_button.dart';
 import '../components/candle_box.dart';
 import '../components/leave_button.dart';
-import '../logic/candle_logic.dart';
 
 class QuietRoom extends StatelessWidget {
   final int minuteGoal;

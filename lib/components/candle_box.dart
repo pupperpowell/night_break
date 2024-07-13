@@ -33,11 +33,7 @@ class CandleBoxState extends State<CandleBox> {
   static List<RecordModel> candles = [];
   Map<String, DateTime> candleAddTimes = {};
 
-  int activeUsers = 0; // TODO: This is not updating in UI
-
   CandleLogic candleLogic = CandleLogic();
-
-  bool _isSubscribedToActiveUsers = false;
 
   @override
   void initState() {
@@ -54,63 +50,13 @@ class CandleBoxState extends State<CandleBox> {
       return event.record;
     };
     candleLogic.subscribeToCandleChanges();
-    // _subscribeToActiveUsers();
     _populateCandles();
   }
 
   @override
   void dispose() {
     candleLogic.unsubscribeFromCandleChanges();
-    // _unsubscribeFromActiveUsers();
     super.dispose();
-  }
-
-  // TODO: move to here_together.dart
-  void _subscribeToActiveUsers() {
-    if (_isSubscribedToActiveUsers) return; // prevent double subscribing
-    pb.collection('active_users').subscribe('*', (e) {
-      if (e.record != null) {
-        setState(() {
-          activeUsers = e.record!.getIntValue('in_quiet_room');
-        });
-      }
-    });
-    _isSubscribedToActiveUsers = true;
-
-    _incrementActiveUsers();
-  }
-
-  // TODO: move to here_together.dart
-  void _unsubscribeFromActiveUsers() {
-    _decrementActiveUsers();
-    pb.collection('active_users').unsubscribe();
-    _isSubscribedToActiveUsers = false;
-  }
-
-  // TODO: move to here_together.dart
-  Future<void> _incrementActiveUsers() async {
-    try {
-      final record = await pb.collection('active_users').getFirstListItem('');
-      await pb.collection('active_users').update(record.id, body: {
-        'in_quiet_room': record.getIntValue('in_quiet_room') + 1,
-      });
-      debugPrint('incremented to ${record.getIntValue('in_quiet_room') + 1}');
-    } catch (e) {
-      debugPrint('Error incrementing active users: $e');
-    }
-  }
-
-  // TODO: move to here_together.dart
-  Future<void> _decrementActiveUsers() async {
-    try {
-      final record = await pb.collection('active_users').getFirstListItem('');
-      await pb.collection('active_users').update(record.id, body: {
-        'in_quiet_room': record.getIntValue('in_quiet_room') - 1,
-      });
-      debugPrint('decremented to ${record.getIntValue('in_quiet_room') - 1}');
-    } catch (e) {
-      debugPrint('Error decrementing active users: $e');
-    }
   }
 
   // fill up the list of candles this widget holds
@@ -173,9 +119,6 @@ class CandleBoxState extends State<CandleBox> {
 
     return Column(
       children: [
-        // Text('$activeUsers here now',
-        //     style: Theme.of(context).textTheme.bodyMedium),
-        // const SizedBox(height: 72.0),
         SizedBox(
           width: candleBoxWidth,
           height: candleBoxHeight,
