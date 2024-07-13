@@ -1,11 +1,18 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:night_break/components/seven_candles.dart';
 
 import '../logic/candle_logic.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
+
+  Future<int> getWeeklyCandles() async {
+    int weeklyCandles = 0;
+
+    return weeklyCandles;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +27,7 @@ class ProfilePage extends StatelessWidget {
             children: [
               Text('hi $name', style: Theme.of(context).textTheme.titleLarge),
               const SizedBox(height: 32.0),
+              const SevenCandles(weeklyCandleCount: ,),
             ],
           ),
         ),
