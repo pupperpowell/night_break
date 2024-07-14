@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -124,6 +123,23 @@ class CandleBoxState extends State<CandleBox> {
           height: candleBoxHeight,
           child: Stack(
             children: [
+              Positioned.fill(
+                top: -400,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                  child: FittedBox(
+                    fit: BoxFit.contain,
+                    child: Text(
+                      '(feel free to put your phone down now.)',
+                      style: TextStyle(
+                        color: Colors.grey[800],
+                        fontSize:
+                            100, // Large initial size, will be scaled down if needed
+                      ),
+                    ),
+                  ),
+                ),
+              ),
               ...positionCandlesRandomly(
                 candles: candles,
                 boxSize: Size(candleBoxWidth, candleBoxHeight),

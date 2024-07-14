@@ -1,42 +1,99 @@
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:pocketbase/pocketbase.dart';
+
+import '../logic/candle_logic.dart';
 
 class SevenCandles extends StatelessWidget {
-  final Future<int> weeklyCandleCount;
+  const SevenCandles({super.key});
 
-  const SevenCandles({super.key, required this.weeklyCandleCount});
+  Future<List<RecordModel>> getUserCandles() async {
+    final resultList = await pb.collection('candles').getList(
+          filter: 'owner = "${pb.authStore.model.id}"',
+          sort: '-created',
+        );
+
+    return resultList.items;
+  }
+
+  int numberOfCandles(List<RecordModel> candles) {
+    return candles.length;
+  }
+
+  int calculateStreak(List<RecordModel> candles) {
+    if (candles.isEmpty) return 0;
+
+    int streak = 1;
+    DateTime lastDate = DateTime.parse(candles.first.created).toLocal();
+    DateTime today = DateTime.now().toLocal();
+
+    for (int i = 1; i < candles.length; i++) {
+      DateTime currentDate = DateTime.parse(candles[i].created).toLocal();
+
+      if (lastDate.year == currentDate.year &&
+          lastDate.month == currentDate.month &&
+          lastDate.day == currentDate.day) {
+        continue; // Skip duplicate entries for the same day
+      }
+
+      if (lastDate.year == currentDate.year &&
+          lastDate.month == currentDate.month &&
+          lastDate.day == currentDate.day + 1) {
+        streak++;
+        lastDate = currentDate;
+      } else {
+        break;
+      }
+    }
+
+    // Check if the streak includes today
+    if (lastDate.year == today.year &&
+        lastDate.month == today.month &&
+        lastDate.day == today.day) {
+      streak++;
+    }
+
+    return streak;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<int>(
-      future: weeklyCandleCount,
+    return FutureBuilder<List<RecordModel>>(
+      future: getUserCandles(),
       builder: (context, snapshot) {
-        const Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              Symbols.mode_heat_off,
-            ),
-            Icon(
-              Symbols.mode_heat_off,
-            ),
-            Icon(
-              Symbols.mode_heat_off,
-            ),
-            Icon(
-              Symbols.mode_heat_off,
-            ),
-            Icon(
-              Symbols.mode_heat_off,
-            ),
-            Icon(
-              Symbols.mode_heat_off,
-            ),
-            Icon(
-              Symbols.mode_heat_off,
-            ),
-          ],
-        );
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else if (snapshot.hasData) {
+          int streak = calculateStreak(snapshot.data!);
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  double iconSize = constraints.maxWidth / 7;
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: List.generate(7, (index) {
+                      return Icon(
+                        index < streak
+                            ? Symbols.mode_heat
+                            : Symbols.mode_heat_off,
+                        color: index < streak ? Colors.orange : Colors.grey,
+                        size: iconSize,
+                      );
+                    }),
+                  );
+                },
+              ),
+              const SizedBox(height: 16.0),
+              Text('${numberOfCandles(snapshot.data!)} candles lit'),
+            ],
+          );
+        } else {
+          return const Text('Couldn\'t get candle data');
+        }
       },
     );
   }
