@@ -44,7 +44,9 @@ void main() {
     color.g /=2.4;
     
     //add slight blue to the base of the flame
-    color.b -= 0.15 * pos.y / flame_out;
+    color.b = max(0.0, color.b - 0.15 * pos.y / flame_out);
+    color.r = min(1.0, color.r * 1.2);
+    color.g = min(1.0, color.g * 1.1);
     
     //Add bloom
     color.rg += smoothstep(0.0, 10.1, 1.0 / distance(nuv, vec2(pos.x+0.25, (pos.y*0.1+0.4)))) * Bloom;
