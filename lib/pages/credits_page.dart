@@ -30,6 +30,20 @@ class CreditsPage extends StatelessWidget {
                 'Inspirations:',
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
+              Row(children: [
+                const Text('• '),
+                GestureDetector(
+                  onTap: () => launchUrl(Uri.parse('https://sit.sonnet.io/')),
+                  child: const Text(
+                    'Sit',
+                    style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      color: Colors.lightBlue,
+                    ),
+                  ),
+                ),
+                const Text(' by Rafał Pastuszak'),
+              ]),
               Row(
                 children: [
                   const Text('• Anthropological writings of '),
