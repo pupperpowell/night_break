@@ -96,7 +96,7 @@ class CandleStandPageState extends State<CandleStandPage> {
                             _minuteGoal = selectedItem + 1;
                           });
                         },
-                        children: List<Widget>.generate(10, (int index) {
+                        children: List<Widget>.generate(30, (int index) {
                           return Center(
                             child: Text('${index + 1}',
                                 style: Theme.of(context).textTheme.titleLarge),

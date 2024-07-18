@@ -77,9 +77,7 @@ class SevenCandles extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: List.generate(7, (index) {
                       return Icon(
-                        index < streak
-                            ? Symbols.mode_heat
-                            : Symbols.mode_heat_off,
+                        Symbols.mode_heat,
                         color: index < streak ? Colors.orange : Colors.grey,
                         size: iconSize,
                       );

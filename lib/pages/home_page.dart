@@ -1,5 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:night_break/components/candle.dart';
+
+import 'credits_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -14,7 +17,7 @@ class HomePage extends StatelessWidget {
             child: Column(
               children: [
                 const Text(
-                  'Welcome to Night Break v0.9\nmade with love by George Powell',
+                  'Welcome to Night Break v1.0\nmade with love by George Powell',
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 16.0),
@@ -26,12 +29,8 @@ class HomePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 16.0),
                 const ListItem(checked: true, text: 'candle stand'),
-                const ListItem(
-                    checked: false,
-                    text: 'prayer page with daily readings & saints'),
-                const ListItem(
-                    checked: false, text: 'anonymous prayer requests'),
-                const ListItem(checked: false, text: 'a secret candle feature'),
+                const ListItem(checked: false, text: 'daily readings & saints'),
+                const ListItem(checked: false, text: 'secret candle features'),
                 const SizedBox(height: 16.0),
                 const Text(
                   'After that, features will be added based on suggestions from the community.',
@@ -39,6 +38,17 @@ class HomePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 16.0),
                 const ListItem(checked: false, text: 'in-app feature requests'),
+                const Spacer(),
+                CupertinoButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CreditsPage()),
+                    );
+                  },
+                  child: const Text('credits'),
+                )
               ],
             ),
           ),

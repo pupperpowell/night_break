@@ -118,21 +118,25 @@ class CandleBoxState extends State<CandleBox> {
 
     return Column(
       children: [
-        SizedBox(
+        Container(
+          // can be SizedBox without 'decoration' field
           width: candleBoxWidth,
           height: candleBoxHeight,
+          // decoration: BoxDecoration( // debug candlebox border
+          //   border: Border.all(color: Colors.white, width: 1.0),
+          // ),
           child: Stack(
             children: [
               Positioned.fill(
                 top: -400,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 28.0),
                   child: FittedBox(
                     fit: BoxFit.contain,
                     child: Text(
-                      '(feel free to put your phone down now.)',
+                      '(you can stop looking at the screen for now.)',
                       style: TextStyle(
-                        color: Colors.grey[800],
+                        color: Colors.grey[700],
                         fontSize:
                             100, // Large initial size, will be scaled down if needed
                       ),
