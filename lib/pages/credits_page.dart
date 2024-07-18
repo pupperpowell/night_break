@@ -76,7 +76,8 @@ class CreditsPage extends StatelessWidget {
               ),
               const Text('• George Powell'),
               GestureDetector(
-                onTap: () => launchUrl(Uri.parse('https://runyourown.social/')),
+                onTap: () => launchUrl(
+                    Uri.parse('https://github.com/pupperpowell/night_break')),
                 child: const Text('Link to code repository',
                     style: TextStyle(
                         decoration: TextDecoration.underline,
