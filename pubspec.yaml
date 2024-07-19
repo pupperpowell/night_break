@@ -1,7 +1,7 @@
 name: night_break
 description: "A community mindfulness app"
 publish_to: "none"
-version: 1.0.1
+version: 1.0.2
 
 environment:
   sdk: ">=3.2.6 <4.0.0"

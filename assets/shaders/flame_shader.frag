@@ -44,9 +44,7 @@ void main() {
     color.g /=2.4;
     
     //add slight blue to the base of the flame
-    color.b = max(0.0, color.b - 0.15 * pos.y / flame_out);
-    color.r = min(1.0, color.r * 1.2);
-    color.g = min(1.0, color.g * 1.1);
+    color.b -= 0.15 * pos.y / flame_out;
     
     //Add bloom
     color.rg += smoothstep(0.0, 10.1, 1.0 / distance(nuv, vec2(pos.x+0.25, (pos.y*0.1+0.4)))) * Bloom;
@@ -56,7 +54,9 @@ void main() {
     color.rgb += pow(color.r, 1.0);
     
     // Set alpha based on color intensity
-    color.a = length(color.rgb);
+    color.a = smoothstep(0.0, 0.8, length(color.rgb));
+
+    fragColor = vec4(color.rgb * color.a, color.a);
     
     fragColor = color;
 }
