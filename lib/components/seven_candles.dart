@@ -24,35 +24,35 @@ class SevenCandles extends StatelessWidget {
   int calculateStreak(List<RecordModel> candles) {
     if (candles.isEmpty) return 0;
 
-    int streak = 0;
-    DateTime lastDate = DateTime.parse(candles.first.created).toLocal();
+    int streak = 1;
+    DateTime mostRecentCandleDate =
+        DateTime.parse(candles.first.created).toLocal();
     DateTime today = DateTime.now().toLocal();
 
-    for (int i = 1; i < candles.length; i++) {
-      DateTime currentDate = DateTime.parse(candles[i].created).toLocal();
+    for (int i = 0; i < candles.length; i++) {
+      DateTime candleDate = DateTime.parse(candles[i].created).toLocal();
+      DateTime nextCandleDate =
+          DateTime.parse(candles[i + 1].created).toLocal();
 
-      if (lastDate.year == currentDate.year &&
-          lastDate.month == currentDate.month &&
-          lastDate.day == currentDate.day) {
+      if (candleDate.day == nextCandleDate.day &&
+          candleDate.month == nextCandleDate.month &&
+          candleDate.year == nextCandleDate.year) {
         continue; // Skip duplicate entries for the same day
       }
 
-      if (lastDate.year == currentDate.year &&
-          lastDate.month == currentDate.month &&
-          lastDate.day == currentDate.day + 1) {
+      if (nextCandleDate.day == candleDate.day + 1) {
         streak++;
-        lastDate = currentDate;
-      } else {
-        break;
       }
+
+      // stop counting if the streak is broken
     }
 
     // Check if the streak includes today
-    if (lastDate.year == today.year &&
-        lastDate.month == today.month &&
-        lastDate.day == today.day) {
-      streak++;
-    }
+    // if (lastDate.year == today.year &&
+    //     lastDate.month == today.month &&
+    //     lastDate.day == today.day) {
+    //   streak++;
+    // }
     debugPrint('streak: $streak');
     return streak;
   }

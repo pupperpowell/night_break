@@ -58,10 +58,10 @@ class _HomeState extends State<Home> {
         },
         selectedIndex: _currentPageIndex,
         destinations: const [
-          NavigationDestination(
-            icon: Icon(Symbols.favorite),
-            label: 'Home',
-          ),
+          // NavigationDestination(
+          //   icon: Icon(Symbols.favorite),
+          //   label: 'Home',
+          // ),
           NavigationDestination(
             icon: Icon(Symbols.candle_rounded),
             label: 'Candle Stand',
@@ -75,7 +75,7 @@ class _HomeState extends State<Home> {
         height: 52, // 50 for iOS, 70 for android?
       ),
       body: <Widget>[
-        const HomePage(),
+        // const HomePage(),
         const CandleStandPage(),
         const ProfilePage(),
       ].elementAt(_currentPageIndex),
