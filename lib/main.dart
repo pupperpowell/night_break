@@ -67,12 +67,12 @@ class _HomeState extends State<Home> {
             label: 'Candle Stand',
           ),
           NavigationDestination(
-            icon: Icon(Symbols.taunt),
+            icon: Icon(Symbols.person),
             label: 'Settings',
           ),
         ],
         backgroundColor: Colors.black,
-        height: 50, // 50 for iOS, 70 for android?
+        height: 52, // 50 for iOS, 70 for android?
       ),
       body: <Widget>[
         const HomePage(),
