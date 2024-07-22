@@ -12,18 +12,19 @@ class SevenCandles extends StatelessWidget {
           filter: 'owner = "${pb.authStore.model.id}"',
           sort: '-created',
         );
-
+    debugPrint('got a list of candles for user');
     return resultList.items;
   }
 
   int numberOfCandles(List<RecordModel> candles) {
+    debugPrint('total candles: ${candles.length}');
     return candles.length;
   }
 
   int calculateStreak(List<RecordModel> candles) {
     if (candles.isEmpty) return 0;
 
-    int streak = 1;
+    int streak = 0;
     DateTime lastDate = DateTime.parse(candles.first.created).toLocal();
     DateTime today = DateTime.now().toLocal();
 
@@ -52,7 +53,7 @@ class SevenCandles extends StatelessWidget {
         lastDate.day == today.day) {
       streak++;
     }
-
+    debugPrint('streak: $streak');
     return streak;
   }
 

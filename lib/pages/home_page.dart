@@ -1,5 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:night_break/components/candle.dart';
+
+import 'credits_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -9,7 +12,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(32.0),
+          padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
           child: Center(
             child: Column(
               children: [
@@ -19,22 +22,33 @@ class HomePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 16.0),
                 Candle(created: DateTime.now(), scale: 1.0, owner: "nobody"),
-                const SizedBox(height: 32.0),
+                const SizedBox(height: 12.0),
                 const Text(
                   'This app is still in development. A small number of features are currently implemented or planned:',
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 16.0),
+                const SizedBox(height: 12.0),
                 const ListItem(checked: true, text: 'candle stand'),
                 const ListItem(checked: false, text: 'daily readings & saints'),
                 const ListItem(checked: false, text: 'secret candle features'),
-                const SizedBox(height: 16.0),
+                const SizedBox(height: 12.0),
                 const Text(
                   'After that, features will be added based on suggestions from the community.',
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 16.0),
+                const SizedBox(height: 12.0),
                 const ListItem(checked: false, text: 'in-app feature requests'),
+                const Spacer(),
+                CupertinoButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CreditsPage()),
+                    );
+                  },
+                  child: const Text('credits'),
+                )
               ],
             ),
           ),

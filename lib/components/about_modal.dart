@@ -7,7 +7,7 @@ class AboutModal extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.all(24.0),
+        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -46,10 +46,10 @@ class AboutModal extends StatelessWidget {
                     text:
                         'I believe building for a community, instead of for \'everyone,\' has a huge impact on the design, engineering, and messaging of any product or service. Every feature of this app is tailor-made with you in mind.\n\n',
                   ),
-                  const TextSpan(
-                    text:
-                        'It has been a gift to be able to build and handcraft this app for you, from conception to reality. Thank you for being my motivation and guiding light.\n\n',
-                  ),
+                  // const TextSpan(
+                  //   text:
+                  //       'It has been a gift to be able to build and handcraft this app for you, from conception to reality. Thank you for being my motivation and guiding light.\n\n',
+                  // ),
                   const TextSpan(
                     text:
                         'Looking for an invite code? Here\'s a hint– humility is not a pillar. (There are six other options.)\n\n',

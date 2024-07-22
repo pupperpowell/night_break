@@ -54,7 +54,9 @@ void main() {
     color.rgb += pow(color.r, 1.0);
     
     // Set alpha based on color intensity
-    color.a = length(color.rgb);
+    color.a = smoothstep(0.0, 0.8, length(color.rgb));
+
+    fragColor = vec4(color.rgb * color.a, color.a);
     
     fragColor = color;
 }
